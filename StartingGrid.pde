@@ -22,40 +22,42 @@ class startingGrid {
     wDaisyNum= cp5.getController("whiteDaises").getValue();
     totalDaisies = bDaisyNum+wDaisyNum;
     grayArea = 100 - totalDaisies;
-    if(totalDaisies =< 100){
+    
+    if(totalDaisies <= 100){
     // For each cell in the grid, create a new cell with a daisy in it
     // with 2/3 probability. Otherwise, create a cell with no daisy.
     int counterWhite = 0;
     int counterBlack = 0;
     int grayCounter = 0;
+    int daisyType;
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
        
         if(counterWhite != wDaisyNum && counterBlack != bDaisyNum && grayCounter != grayArea)
         {
-           int daisyType = int(random(3));
+           daisyType = int(random(3));
         }else if(counterBlack == bDaisyNum)
         {
            int holder = int (random(2));
-           if(holder ==0)int daisyType = holder;
-           else int daisyType = 3;
-        }else if(counterWhite = wDaisyNum)
+           if(holder ==0) daisyType = holder;
+           else daisyType = 3;
+        }else if(counterWhite == wDaisyNum)
         {
            int holder = int (random(2))+1;
-           if(holder == 1)int daisyType = holder;
-           else int daisyType = 3;
+           if(holder == 1) daisyType = holder;
+           else daisyType = 3;
         }else if(grayCounter==grayArea)
         { 
            int daisyType = int (random(2));
         }
-        else if(grayCounter==grayArea && counterBlack == bDaisyNum) int daisyType = 0;
-        else if(grayCounter==grayArea && counterWhite = wDaisyNum) int daisyType = 1;
-        else if(counterBlack == bDaisyNum && counterWhite = wDaisyNum) int daisyType = 2;
+        else if(grayCounter==grayArea && counterBlack == bDaisyNum)  daisyType = 0;
+        else if(grayCounter==grayArea && counterWhite == wDaisyNum)  daisyType = 1;
+        else if(counterBlack == bDaisyNum && counterWhite == wDaisyNum)  daisyType = 2;
         
         
-        if(daisyType = 0) counterWhite++;
-        if(daisyType = 1) counterBlack++;
-        if(daisyType = 2) grayCounter++;
+        if(daisyType == 0) counterWhite++;
+        if(daisyType == 1) counterBlack++;
+        if(daisyType == 2) grayCounter++;
         
         
         if (daisyType < 2) {
@@ -98,7 +100,7 @@ class startingGrid {
         newGrid[row][col] = newCell;
       }
     }
-    
+
     // Update grid with the new state
     grid = newGrid;
     int [] count = daisyCounter(rows, cols);
