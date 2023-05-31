@@ -3,7 +3,8 @@ class Grid {
   Cell[][] grid;
   //initialize worldAlbedo =0.5
   // initialize globaltemp 20
-  float globalTemperature;
+
+  float globalTemperature = 20;
   float worldAlbedo;
   float death_rate = 0.1;
 
@@ -18,7 +19,7 @@ class Grid {
       for (int j = 0; j < cols; j++) {
         int daisyType = int(random(3));
         if (daisyType < 2) {
-          grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType));
+          grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, globalTemperature));
         } else {
           grid[i][j] = new Cell(i * size, j * size, null);
         }
@@ -112,7 +113,12 @@ class Grid {
                       if (counter == target) {
                         // Reproduce
                         int dType = int(random(2));
-                        grid[ni][nj].daisy = new Daisy(dType);
+                        
+                        Daisy proposedDaisy = new Daisy(dType, globalTemperature);
+                          if (proposedDaisy.isValid) {           
+                            // Only create actual daisy if temperature is valid                
+                            grid[ni][nj].daisy = proposedDaisy;              
+                          }
                       }
                       counter++;
                     }
@@ -133,6 +139,7 @@ class Grid {
   float calculateSurface(float size, int number )
   {
 
+
     return ((PI*pow(size/2, 2)*number)/(502654))+0.001;
   }
 
@@ -146,6 +153,7 @@ class Grid {
   }
 
   //calc daisies + uncovered total surface
+
 
   int countNeighbours(int i, int j)
   {
