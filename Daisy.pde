@@ -21,16 +21,18 @@ class Daisy {
     if( daisyType == 0)
     { 
       this.c = white;
-      this.albedo =0.75;
+      this.albedo = 0.75;
     }else
     {
       this.c = black;
       this.albedo = 0.25;
     }
+
     // Check temperature condition
     if (temperature < minTemp || temperature > maxTemp) {
       this.isValid = false;
     }    
+
     // the size to the width divided by the number of rows, and the age to 0
     this.size = width / rows;
     this.age = 0;

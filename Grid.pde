@@ -3,10 +3,10 @@ class Grid {
   Cell[][] grid;
   //initialize worldAlbedo =0.5
   // initialize globaltemp 20
+
   float globalTemperature = 20;
   float worldAlbedo;
   float death_rate = 0.1;
-
 
   // Create a new grid with the given number of rows and columns.
   Grid(int rows, int cols) {
@@ -113,6 +113,7 @@ class Grid {
                       if (counter == target) {
                         // Reproduce
                         int dType = int(random(2));
+                        
                         Daisy proposedDaisy = new Daisy(dType, globalTemperature);
                           if (proposedDaisy.isValid) {           
                             // Only create actual daisy if temperature is valid                
@@ -138,6 +139,7 @@ class Grid {
   float calculateSurface(float size, int number )
   {
 
+
     return ((PI*pow(size/2, 2)*number)/(502654))+0.001;
   }
 
@@ -151,6 +153,7 @@ class Grid {
   }
 
   //calc daisies + uncovered total surface
+
 
   int countNeighbours(int i, int j)
   {
