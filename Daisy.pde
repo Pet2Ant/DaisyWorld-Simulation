@@ -4,45 +4,36 @@ class Daisy {
   color c;
   // change temp to albedo
   float albedo;
-  float size;
   int age;
-  boolean isValid;
   int daisyType;
-  int minTemp;
-  int maxTemp;
 
   // Constructor for the Daisy class
-  Daisy(int daisyType, float temperature) {
-    this.isValid = true;
-    this.minTemp = 17;
-    this.maxTemp = 29;
+  Daisy(int daisyType, float albedo) {
     // Set the color to white or black depending on the daisyType
     // create daisy albedo if black=0.75, if white 0.25
     if( daisyType == 0)
     { 
       this.c = white;
-      this.albedo = 0.75;
+      this.albedo =albedo;
     }else
     {
       this.c = black;
-      this.albedo = 0.25;
+      this.albedo = albedo;
     }
-
-    // Check temperature condition
-    if (temperature < minTemp || temperature > maxTemp) {
-      this.isValid = false;
-    }    
-
     // the size to the width divided by the number of rows, and the age to 0
-    this.size = width / rows;
     this.age = 0;
     // Set the daisyType to the given daisyType
     this.daisyType = daisyType;
   }
 
+//5 parametrous gia na kanei initialize to kosmo , tiny small medium large xL
+    // black daisies zoun kalitera s xamiles
+    // white daisies se ipsiles
+
+
   void draw(float x, float y) {
     // Draw a circle.
     fill(c);
-    circle(x + size/2, y + size/2, size);
+    circle(x+ size/2, y + size/2, size);
   }
 }
