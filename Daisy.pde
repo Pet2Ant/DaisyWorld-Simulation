@@ -1,8 +1,7 @@
 // Daisy class
 class Daisy {
-
   // Define variables
-  color c;
+  PImage img;
   // change temp to albedo
   float albedo;
   int age;
@@ -14,11 +13,11 @@ class Daisy {
     // create daisy albedo if black=0.75, if white 0.25
     if ( daisyType == 0)
     {
-      this.c = white;
-      this.albedo =albedo;
+      this.img = whiteDaisyImage;
+      this.albedo = albedo;
     } else
     {
-      this.c = black;
+      this.img = blackDaisyImage;
       this.albedo = albedo;
     }
     // the size to the width divided by the number of rows, and the age to 0
@@ -34,20 +33,11 @@ class Daisy {
 
   void draw(float x, float y) {
     // Draw a circle.
-    fill(c);
-    circle(x+ size/2, y + size/2, size);
+    imageMode(CENTER);
+    image(img, x + size / 2, y + size / 2, size, size);
   }
 
-  /**
-   * setters and getters
-   */
-  public void setColor(int c) {
-    this.c= c;
-  }
-
-  public int getColor() {
-    return this.c;
-  }
+  // setters and getters
 
   public void setAge(int age) {
     this.age = age;
