@@ -1,5 +1,6 @@
 // Daisy class
 class Daisy {
+
   // Define variables
   color c;
   // change temp to albedo
@@ -36,4 +37,33 @@ class Daisy {
     fill(c);
     circle(x+ size/2, y + size/2, size);
   }
+  
+      /**
+     * setters and getters
+     */
+    public void setColor(int c) {
+        	this.c= c;
+        }
+    
+    public int getColor() {
+        	return this.c;
+        }
+    
+    public void setAge(int age) {
+        	this.age = age;
+        }
+    
+    public int getAge() {
+        	return this.age;
+        }
+    
+    public void setAlbedo(float albedo) {
+        this.albedo = albedo;
 }
+    
+    public float getAlbedo() {
+        return this.albedo;
+}
+
+}
+        
