@@ -17,7 +17,7 @@ int temperature;
 float planetAlbedo, daisyAlbedo;
 Slider slider1, slider2, slider3, slider4, slider5, slider6, slider7, slider8, slider9, slider10, worldSlider, daisiesSlider, grayAreaSlider;
 ArrayList<Slider> sliders;
-Button button1, button2;
+Button button1, button2, button3;
 // Global variables
 Grid grid;
 ControlP5 cp5;
@@ -68,11 +68,12 @@ void setup() {
 
 
   button1 =  cp5.addButton("gridUpdate")
-    .setPosition(110, height - 40 )
+    .setPosition(width - (width-100), height - 40 )
+    .setSize(120, 30)
     .setValue(0)
     .setLabel("Update Simulation")
     .activateBy(ControlP5.RELEASE);
-    button1.addCallback(new CallbackListener() {
+  button1.addCallback(new CallbackListener() {
     void controlEvent(CallbackEvent event) {
       if (event.getAction() == ControlP5.RELEASE) {
         button1Callback();
@@ -99,12 +100,12 @@ void setup() {
     .setPosition(50, 130)
     .setRange(0.0, 1.0)
     .setValue(0.5)
-    .setLabel("Daisy Albedo (%)");
+    .setLabel("White Daisy Albedo (%)");
   slider10 = cp5.addSlider("blackDaisyAlbedo")
     .setPosition(50, 170)
     .setRange(0.0, 1.0)
     .setValue(0.5)
-    .setLabel("Daisy Albedo (%)");
+    .setLabel("Black Daisy Albedo (%)");
   worldSlider = cp5.addSlider("Choose a world size")
     .setPosition(50, 210)
     .setRange(0, 4)
@@ -129,6 +130,21 @@ void setup() {
     void controlEvent(CallbackEvent event) {
       if (event.getAction() == ControlP5.RELEASE) {
         button2Callback();
+      }
+    }
+  }
+  );
+
+  button3 = cp5.addButton("updateSimulationX10")
+    .setPosition(width - (width-300), height - 40 )
+    .setSize(120, 30)
+    .setValue(0)
+    .setLabel("Update Simulation x 10")
+    .activateBy(ControlP5.RELEASE);
+  button3.addCallback(new CallbackListener() {
+    void controlEvent(CallbackEvent event) {
+      if (event.getAction() == ControlP5.RELEASE) {
+        button1Callback();
       }
     }
   }
@@ -158,13 +174,14 @@ void draw() {
     slider5.hide();
     slider6.hide();
     button1.hide();
+    button3.hide();
     previousState = currentScreen;
     break;
   case 1:
-    if (previousState == 0 && currentScreen == 1) 
+    if (previousState == 0 && currentScreen == 1)
     {
-    Arr =  button2Callback();
-    grid = new Grid(rows,cols,Arr);
+      Arr =  button2Callback();
+      grid = new Grid(rows, cols, Arr);
     }
     previousState = 1;
     button2.hide();
@@ -177,11 +194,12 @@ void draw() {
     daisiesSlider.hide();
     slider1.show();
     slider2.show();
-    slider3.show();    
-    slider4.show(); 
+    slider3.show();
+    slider4.show();
     slider5.show();
-    slider6.show();  
+    slider6.show();
     button1.show();
+    button3.show();
     grid.draw();
     break;
   }
@@ -197,51 +215,59 @@ float[] button2Callback()
       chooseSize(i);
     }
   }
-  
+
   float[] floatArray = new float[6];
   floatArray[0] = slider7.getValue(); //temp
   floatArray[1] = slider8.getValue(); // pAlbedo
   floatArray[2] = slider9.getValue(); //wAlbedo
   floatArray[3] = slider10.getValue();//bAlbedo
-  floatArray[4] = grayAreaSlider.getValue();//grayArea 
-  floatArray[5] = daisiesSlider.getValue(); // b to w ratio 
+  floatArray[4] = grayAreaSlider.getValue();//grayArea
+  floatArray[5] = daisiesSlider.getValue(); // b to w ratio
   return floatArray;
 }
 
 void button1Callback()
 {
-  if(currentScreen == 1) grid.update();
+  if (currentScreen == 1) grid.update();
+}
+
+void button3Callback() {
+  if (currentScreen == 1) {
+    for (int i = 0; i < 10; i++) {
+      grid.update();
+    }
+  }
 }
 
 
 
-  public void chooseSize(int i)
-  {
-    switch (i) {
-    case 0:
-      rows = 5;
-      cols = 5;
-      size = 800/5;
-      break;
-    case 1:
-      rows = 10;
-      cols = 10;
-      size = 800/10;
-      break;
-    case 2:
-      rows = 15;
-      cols = 15;
-      size = 800/15;
-      break;
-    case 3:
-      rows = 20;
-      cols = 20;
-      size = 800/20;
-      break;
-    case 4:
-      rows = 25;
-      cols = 25;
-      size = 800/25;
-      break;
-    }
+public void chooseSize(int i)
+{
+  switch (i) {
+  case 0:
+    rows = 5;
+    cols = 5;
+    size = 800/5;
+    break;
+  case 1:
+    rows = 10;
+    cols = 10;
+    size = 800/10;
+    break;
+  case 2:
+    rows = 15;
+    cols = 15;
+    size = 800/15;
+    break;
+  case 3:
+    rows = 20;
+    cols = 20;
+    size = 800/20;
+    break;
+  case 4:
+    rows = 25;
+    cols = 25;
+    size = 800/25;
+    break;
   }
+}

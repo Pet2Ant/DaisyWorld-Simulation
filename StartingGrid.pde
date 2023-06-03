@@ -32,7 +32,7 @@
 //    int daisyType = -1;
 //    for (int i = 0; i < rows; i++) {
 //      for (int j = 0; j < cols; j++) {
-       
+
 //        if(counterWhite != wDaisyNum && counterBlack != bDaisyNum && grayCounter != grayArea)
 //        {
 //            daisyType = int(random(3));
@@ -47,19 +47,19 @@
 //           if(holder == 1) daisyType = holder;
 //           else  daisyType = 3;
 //        }else if(grayCounter==grayArea)
-//        { 
+//        {
 //            daisyType = int (random(2));
 //        }
 //        else if(grayCounter==grayArea && counterBlack == bDaisyNum)  daisyType = 0;
 //        else if(grayCounter==grayArea && counterWhite == wDaisyNum)  daisyType = 1;
 //        else if(counterBlack == bDaisyNum && counterWhite == wDaisyNum)  daisyType = 2;
-        
-        
+
+
 //        if(daisyType == 0) counterWhite++;
 //        if(daisyType == 1) counterBlack++;
 //        if(daisyType == 2) grayCounter++;
-        
-        
+
+
 //        if (daisyType < 2) {
 //          grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType));
 //        } else {
@@ -100,7 +100,7 @@
 //        newGrid[row][col] = newCell;
 //      }
 //    }
-    
+
 //    // Update grid with the new state
 //    grid = newGrid;
 //    int [] count = daisyCounter(rows, cols);
@@ -143,7 +143,7 @@
 //            if (countNeighbours > 0 & random(1) < 0.1  &(blackGrowth >0 || whiteGrowth>0)) {
 //              int target = int(random(countNeighbours));
 //              int counter = 0;
-//               //generate daises regardless of existence based on temperature 
+//               //generate daises regardless of existence based on temperature
 //              // Iterate through each neighboring cell
 //              for (int di = -1; di <= 1; di++) {
 //                for (int dj = -1; dj <= 1; dj++) {
@@ -260,7 +260,7 @@
 //    return growth_factor;
 //  }
 //}
-//// boolean for draw 
+//// boolean for draw
 //  // TO DO
 //  //ui :
 //  //add temperatures constraints for daisies, for example daisies may be created between 17-29 deg Celcius

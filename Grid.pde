@@ -3,11 +3,11 @@ class Grid {
   Cell[][] grid;
   //initialize worldAlbedo =0.5
   // initialize globaltemp 20
-    float globalTemperature = Arr[0];
-    float worldAlbedo = Arr[1];
-    float bAlbedo = Arr[3];
-    float wAlbedo = Arr[2];
-    float death_rate = 0.1;
+  float globalTemperature = Arr[0];
+  float worldAlbedo = Arr[1];
+  float bAlbedo = Arr[3];
+  float wAlbedo = Arr[2];
+  float death_rate = 0.1;
 
   // Create a new grid with the given number of rows and columns.
   //Grid(int rows, int cols) {
@@ -28,7 +28,7 @@ class Grid {
   //  }
   //}
 
-  Grid(int rows, int cols,float Arr[])
+  Grid(int rows, int cols, float Arr[])
   {
     grid = new Cell[rows][cols];
     int counterW = 0;
@@ -42,81 +42,51 @@ class Grid {
     println("amount of black"+amOfBlack);
     int amOfWhite = amOfDaisies - amOfBlack;
     println("amount of white"+amOfWhite);
-    // For each cell in the grid, create a new cell with a daisy in it
-     for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-        if(counterW < amOfWhite && counterG < amOfGray && counterB < amOfBlack)
-        { 
-          println("Check 1");
-          int daisyType = int(random(3));
-          if(daisyType == 0)
-          {
-            println("Check2");
-            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, wAlbedo));
-            counterW++;
-          }else if(daisyType == 1)
-          {
-            println("Check3");
-            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, bAlbedo));
-            counterB++;
-          }else{
-            println("Check4");
-             grid[i][j] = new Cell(i * size, j * size, null);
-            counterG++;
-          }
+// Populate the grid with cells containing daisies or empty cells
+for (int i = 0; i < rows; i++) {
+  for (int j = 0; j < cols; j++) {
+    // Calculate the cell position
+    float cellX = i * size;
+    float cellY = j * size;
 
-        }else if (counterW == amOfWhite && counterG < amOfGray && counterB < amOfBlack)
-        {   
-          int daisyType = int(random(2))+1;
-          if(daisyType == 1)
-          {
-            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, bAlbedo));
-            counterB++;
-          }else{
-             grid[i][j] = new Cell(i * size, j * size, null);
-            counterG++;
-          }
+    // Calculate the remaining counts for each daisy type
+    int remainingWhite = amOfWhite - counterW;
+    int remainingBlack = amOfBlack - counterB;
+    int remainingGray = amOfGray - counterG;
 
-        }else if (counterB == amOfBlack && counterG < amOfGray && counterW < amOfWhite)
-        {
-          int daisyType = int(random(2));
-          if(daisyType == 0)
-          {
-            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, wAlbedo));
-            counterW++;
-          }else{
-             grid[i][j] = new Cell(i * size, j * size, null);
-            counterG++;
-          }
+    // Create an array of remaining daisy types and their counts
+    int[][] remainingCounts = {
+      {0, remainingWhite}, 
+      {1, remainingBlack}, 
+      {-1, remainingGray}
+    };
 
-        }else if(counterG == amOfGray && counterW < amOfWhite && counterB < amOfBlack)
-        {
-          int daisyType = int(random(2));
-          if(daisyType == 0)
-          {
-            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, wAlbedo));
-            counterW++;
-          }else{
-             grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, bAlbedo));
-            counterB++;
-          }
+    // Filter out daisy types that have reached their maximum counts
+    ArrayList<int[]> availableTypes = new ArrayList<int[]>();
+    for (int[] remainingCount : remainingCounts) {
+      if (remainingCount[1] > 0) {
+        availableTypes.add(remainingCount);
+      }
+    }
 
-        }else if( counterW == amOfWhite && counterB == amOfBlack && counterG < amOfGray)
-        {
-          grid[i][j] = new Cell(i * size, j * size, null);
-            counterG++;
-        }else if(counterW == amOfWhite && counterG == amOfGray && counterB < amOfBlack)
-        {
-           grid[i][j] = new Cell(i * size, j * size, new Daisy(1, bAlbedo));
-            counterB++;
+    // Randomly select a daisy type from the available types
+    int selectedIndex = int(random(availableTypes.size()));
+    int[] selectedType = availableTypes.get(selectedIndex);
+    int daisyType = selectedType[0];
 
-        }else if(counterB == amOfBlack && counterG == amOfGray && counterW < amOfWhite)
-        {
-          grid[i][j] = new Cell(i * size, j * size, new Daisy(0, wAlbedo));
-            counterW++;
-        }
-        }
-     }
+    // Create the appropriate daisy or empty cell based on daisyType and update counters
+    if (daisyType == 0) {
+      grid[i][j] = new Cell(cellX, cellY, new Daisy(daisyType, wAlbedo));
+      counterW++;
+    } else if (daisyType == 1) {
+      grid[i][j] = new Cell(cellX, cellY, new Daisy(daisyType, bAlbedo));
+      counterB++;
+    } else {
+      grid[i][j] = new Cell(cellX, cellY, null);
+      counterG++;
+    }
+  }
+}
   }
 
   void draw() {
@@ -146,7 +116,7 @@ class Grid {
         newGrid[row][col] = newCell;
       }
     }
-    
+
     // Update grid with the new state
     grid = newGrid;
     int [] count = daisyCounter(rows, cols);
@@ -161,7 +131,7 @@ class Grid {
     //System.out.print("albedo is "+pAlbedo+"\n");
     float globalTemp = calcGlobalTemp(pAlbedo);
     System.out.print(globalTemp);
-    float growthFactW = calcGrowthRate(pAlbedo, 0.75, globalTemp); 
+    float growthFactW = calcGrowthRate(pAlbedo, 0.75, globalTemp);
     println("\n"+"white growth fact is"+"\n"+growthFactW);
     float growthFactB = calcGrowthRate(pAlbedo, 0.25, globalTemp);
     println("\n"+"black growth fact is"+"\n"+growthFactB);
@@ -195,7 +165,7 @@ class Grid {
             if (countNeighbours > 0 && random(1)<0.1) {
               int target = int(random(countNeighbours));
               int counter = 0;
-               //generate daises regardless of existence based on temperature 
+              //generate daises regardless of existence based on temperature
               // Iterate through each neighboring cell
               for (int di = -1; di <= 1; di++) {
                 for (int dj = -1; dj <= 1; dj++) {
@@ -211,8 +181,8 @@ class Grid {
                       if (counter == target) {
                         // Reproduce
                         int dType = int(random(2));
-                        if(dType == 0) grid[ni][nj].daisy = new Daisy(dType,wAlbedo);
-                        else grid[ni][nj].daisy = new Daisy(dType,bAlbedo);
+                        if (dType == 0) grid[ni][nj].daisy = new Daisy(dType, wAlbedo);
+                        else grid[ni][nj].daisy = new Daisy(dType, bAlbedo);
                       }
                       counter++;
                     }
@@ -234,13 +204,13 @@ class Grid {
   {
     return ((PI*pow(size/2, 2)*number)/(502654))+0.001;
   }
-//pAnbedo min-max 0.25025-0.75075 . maxTemp 58.87, minTemp-20.84
+  //pAnbedo min-max 0.25025-0.75075 . maxTemp 58.87, minTemp-20.84
   //calc planet temperature
   float calcGlobalTemp(float pAlbedo)
   {
     // add luminosity for user , give 3 options low , med , high
     float  L = 1;
-    float stefan = 5.67*pow(10,-8);
+    float stefan = 5.67*pow(10, -8);
     float S =  917;
     float pholder = (S*L)/stefan;
     float temporary = pholder*(1-pAlbedo);
@@ -309,7 +279,7 @@ class Grid {
   // if white , white growth rate
   // else if( black growth rate,
   //all white 0.25025 , wGrate= -8.34 // bGrate = -5.24
-  // 
+  //
   float calcGrowthRate(float pAlbedo, float dAlbedo, float globalTemp)
   {
     int hAfactor = 20;
@@ -318,14 +288,14 @@ class Grid {
     return growth_factor;
   }
 }
-  // TO DO
-  //ui :
-  //add temperatures constraints for daisies, for example daisies may be created between 17-29 deg Celcius
-  // user able to initialize global temp , initialize black and white daisies amount,
-  //initialize albedo
-  //luminosity of the sun sun grows? bigger light? but recommended values for proper experiment shown
-  // graph growth rate white/black daises + uncovered area,graph planet temperature
-  //scalable graphs
-  //TO DO  coding:
-  // add temperature constraints for reproduction, minimum and maximum temperatures that a daisy may survive,
-  //for example black max 35 C min 20C, white max 40C min 15C
+// TO DO
+//ui :
+//add temperatures constraints for daisies, for example daisies may be created between 17-29 deg Celcius
+// user able to initialize global temp , initialize black and white daisies amount,
+//initialize albedo
+//luminosity of the sun sun grows? bigger light? but recommended values for proper experiment shown
+// graph growth rate white/black daises + uncovered area,graph planet temperature
+//scalable graphs
+//TO DO  coding:
+// add temperature constraints for reproduction, minimum and maximum temperatures that a daisy may survive,
+//for example black max 35 C min 20C, white max 40C min 15C
