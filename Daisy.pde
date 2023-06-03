@@ -42,19 +42,19 @@ class Daisy {
      * setters and getters
      */
     public void setColor(int c) {
-        	this.c= c;
+          this.c= c;
         }
     
     public int getColor() {
-        	return this.c;
+          return this.c;
         }
     
     public void setAge(int age) {
-        	this.age = age;
+          this.age = age;
         }
     
     public int getAge() {
-        	return this.age;
+          return this.age;
         }
     
     public void setAlbedo(float albedo) {

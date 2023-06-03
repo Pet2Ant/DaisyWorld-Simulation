@@ -1,4 +1,3 @@
-
 ////  temperature = (int) cp5.getController("temperature").getValue();
 ////  planetAlbedo = cp5.getController("planetAlbedo").getValue();
 ////  daisyAlbedo = cp5.getController("daisyAlbedo").getValue();
@@ -59,67 +58,6 @@
 //        if(daisyType == 0) counterWhite++;
 //        if(daisyType == 1) counterBlack++;
 //        if(daisyType == 2) grayCounter++;
-
-//  temperature = (int) cp5.getController("temperature").getValue();
-//  planetAlbedo = cp5.getController("planetAlbedo").getValue();
-//  daisyAlbedo = cp5.getController("daisyAlbedo").getValue();
-// Grid class
-class startingGrid {
-  Cell[][] grid;
-  //initialize worldAlbedo =0.5
-  // initialize globaltemp 20
-  float globalTemperature;
-  float worldAlbedo;
-  float death_rate = 0.1;
-// to do add initialization screen UI where the user may add number of daisies, daisy albedo, world albedo, give hints for the best values and death rate
-// make start simulation button to go to the next screen which includes the daisyworld the user designed, allow the user to change albedos inside the "grid" phase
-  // Create a new grid with the given number of rows and columns.
-  startingGrid(int rows, int cols) {
-    grid = new Cell[rows][cols];
-    globalTemperature = (int) cp5.getController("temperature").getValue();
-    worldAlbedo = cp5.getController("planetAlbedo").getValue();
-    wdaisyAlbedo = cp5.getController("wdaisyAlbedo").getValue();
-    bdaisyAlbedo= cp5.getController("bdaisyAlbedo").getValue();
-    bDaisyNum= cp5.getController("blackDaises").getValue();
-    wDaisyNum= cp5.getController("whiteDaises").getValue();
-    totalDaisies = bDaisyNum+wDaisyNum;
-    grayArea = 100 - totalDaisies;
-    
-    if(totalDaisies <= 100){
-    // For each cell in the grid, create a new cell with a daisy in it
-    // with 2/3 probability. Otherwise, create a cell with no daisy.
-    int counterWhite = 0;
-    int counterBlack = 0;
-    int grayCounter = 0;
-    int daisyType;
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-       
-        if(counterWhite != wDaisyNum && counterBlack != bDaisyNum && grayCounter != grayArea)
-        {
-           daisyType = int(random(3));
-        }else if(counterBlack == bDaisyNum)
-        {
-           int holder = int (random(2));
-           if(holder ==0) daisyType = holder;
-           else daisyType = 3;
-        }else if(counterWhite == wDaisyNum)
-        {
-           int holder = int (random(2))+1;
-           if(holder == 1) daisyType = holder;
-           else daisyType = 3;
-        }else if(grayCounter==grayArea)
-        { 
-           int daisyType = int (random(2));
-        }
-        else if(grayCounter==grayArea && counterBlack == bDaisyNum)  daisyType = 0;
-        else if(grayCounter==grayArea && counterWhite == wDaisyNum)  daisyType = 1;
-        else if(counterBlack == bDaisyNum && counterWhite == wDaisyNum)  daisyType = 2;
-        
-        
-        if(daisyType == 0) counterWhite++;
-        if(daisyType == 1) counterBlack++;
-        if(daisyType == 2) grayCounter++;
         
         
 //        if (daisyType < 2) {
@@ -169,19 +107,6 @@ class startingGrid {
 //    System.out.print("gray area count"+count[0]+"\n");
 //    System.out.print("w area count"+count[1]+"\n");
 //    System.out.print("b area count"+count[2]+"\n");
-
-        // Copy the cell to the new grid
-        Cell newCell = new Cell(row * size, col * size, cell.daisy);
-        newGrid[row][col] = newCell;
-      }
-    }
-
-    // Update grid with the new state
-    grid = newGrid;
-    int [] count = daisyCounter(rows, cols);
-    System.out.print("gray area count"+count[0]+"\n");
-    System.out.print("w area count"+count[1]+"\n");
-    System.out.print("b area count"+count[2]+"\n");
 
 //    float pAlbedo = calcPlanetAlbedo(calculateSurface(size, count[0]), calculateSurface(size, count[1]), calculateSurface(size, count[2]), worldAlbedo, 0.75, 0.25);
 //    //println("\n"+"uncovered area is"+calculateSurface(size, count[0]));
