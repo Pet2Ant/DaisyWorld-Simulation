@@ -3,28 +3,120 @@ class Grid {
   Cell[][] grid;
   //initialize worldAlbedo =0.5
   // initialize globaltemp 20
-
-  float globalTemperature = 20;
-  float worldAlbedo;
-  float death_rate = 0.1;
+    float globalTemperature = Arr[0];
+    float worldAlbedo = Arr[1];
+    float bAlbedo = Arr[3];
+    float wAlbedo = Arr[2];
+    float death_rate = 0.1;
 
   // Create a new grid with the given number of rows and columns.
-  Grid(int rows, int cols) {
+  //Grid(int rows, int cols) {
+  //  grid = new Cell[rows][cols];
+  //  // globalTemperature = (16,172,839,506*(1-Ap))pow(0.25) - 273;
+  //  worldAlbedo = 0.5;
+  //  // For each cell in the grid, create a new cell with a daisy in it
+  //  // with 2/3 probability. Otherwise, create a cell with no daisy.
+  //  for (int i = 0; i < rows; i++) {
+  //    for (int j = 0; j < cols; j++) {
+  //      int daisyType = int(random(3));
+  //      if (daisyType < 2) {
+  //        grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType,0.75));
+  //      } else {
+  //        grid[i][j] = new Cell(i * size, j * size, null);
+  //      }
+  //    }
+  //  }
+  //}
+
+  Grid(int rows, int cols,float Arr[])
+  {
     grid = new Cell[rows][cols];
-    // globalTemperature = (16,172,839,506*(1-Ap))pow(0.25) - 273;
-    worldAlbedo = 0.5;
+    int counterW = 0;
+    int counterB  = 0;
+    int counterG = 0;
+    int surface = rows*cols;
+    int amOfGray = int(Arr[4]*surface);
+    println("amount of gray"+amOfGray);
+    int amOfDaisies = surface - amOfGray;
+    int amOfBlack = int(Arr[5]*amOfDaisies);
+    println("amount of black"+amOfBlack);
+    int amOfWhite = amOfDaisies - amOfBlack;
+    println("amount of white"+amOfWhite);
     // For each cell in the grid, create a new cell with a daisy in it
-    // with 2/3 probability. Otherwise, create a cell with no daisy.
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        int daisyType = int(random(3));
-        if (daisyType < 2) {
-          grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, globalTemperature));
-        } else {
+     for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+        if(counterW < amOfWhite && counterG < amOfGray && counterB < amOfBlack)
+        { 
+          println("Check 1");
+          int daisyType = int(random(3));
+          if(daisyType == 0)
+          {
+            println("Check2");
+            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, wAlbedo));
+            counterW++;
+          }else if(daisyType == 1)
+          {
+            println("Check3");
+            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, bAlbedo));
+            counterB++;
+          }else{
+            println("Check4");
+             grid[i][j] = new Cell(i * size, j * size, null);
+            counterG++;
+          }
+
+        }else if (counterW == amOfWhite && counterG < amOfGray && counterB < amOfBlack)
+        {   
+          int daisyType = int(random(2))+1;
+          if(daisyType == 1)
+          {
+            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, bAlbedo));
+            counterB++;
+          }else{
+             grid[i][j] = new Cell(i * size, j * size, null);
+            counterG++;
+          }
+
+        }else if (counterB == amOfBlack && counterG < amOfGray && counterW < amOfWhite)
+        {
+          int daisyType = int(random(2));
+          if(daisyType == 0)
+          {
+            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, wAlbedo));
+            counterW++;
+          }else{
+             grid[i][j] = new Cell(i * size, j * size, null);
+            counterG++;
+          }
+
+        }else if(counterG == amOfGray && counterW < amOfWhite && counterB < amOfBlack)
+        {
+          int daisyType = int(random(2));
+          if(daisyType == 0)
+          {
+            grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, wAlbedo));
+            counterW++;
+          }else{
+             grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType, bAlbedo));
+            counterB++;
+          }
+
+        }else if( counterW == amOfWhite && counterB == amOfBlack && counterG < amOfGray)
+        {
           grid[i][j] = new Cell(i * size, j * size, null);
+            counterG++;
+        }else if(counterW == amOfWhite && counterG == amOfGray && counterB < amOfBlack)
+        {
+           grid[i][j] = new Cell(i * size, j * size, new Daisy(1, bAlbedo));
+            counterB++;
+
+        }else if(counterB == amOfBlack && counterG == amOfGray && counterW < amOfWhite)
+        {
+          grid[i][j] = new Cell(i * size, j * size, new Daisy(0, wAlbedo));
+            counterW++;
         }
-      }
-    }
+        }
+     }
   }
 
   void draw() {
@@ -69,10 +161,16 @@ class Grid {
     //System.out.print("albedo is "+pAlbedo+"\n");
     float globalTemp = calcGlobalTemp(pAlbedo);
     System.out.print(globalTemp);
-    float growthFactW = calcGrowthRate(pAlbedo, 0.75, globalTemp);
+    float growthFactW = calcGrowthRate(pAlbedo, 0.75, globalTemp); 
+    println("\n"+"white growth fact is"+"\n"+growthFactW);
     float growthFactB = calcGrowthRate(pAlbedo, 0.25, globalTemp);
+    println("\n"+"black growth fact is"+"\n"+growthFactB);
     float blackGrowth = calculateSurface(size, count[2])*(calculateSurface(size, count[0])*growthFactB - death_rate)+.001;
-    float whiteGrowth = calculateSurface(size, count[1])*(calculateSurface(size, count[0])*growthFactW - death_rate)+.001;
+    println("\n"+"surface uncov"+"\n"+calculateSurface(size, count[0]));
+    println("\n"+"surf covered from black"+"\n"+calculateSurface(size, count[2]));
+    println("\n"+"surf covered from white"+"\n"+calculateSurface(size, count[1]));
+    float k =(calculateSurface(size, count[0])*growthFactW - death_rate);
+    float whiteGrowth = (calculateSurface(size, count[1])*k)+.001;
     System.out.print("\n"+"white growth is"+"\n"+whiteGrowth);
     System.out.print("\n"+"black growth is"+"\n"+blackGrowth);
     // Check for reproduction and death
@@ -93,8 +191,8 @@ class Grid {
 
             // black i white >0
             // give priority to highest growthRate
-            //
-            if (countNeighbours > 0 & random(1) < 0.1  &(blackGrowth >0 || whiteGrowth>0)) {
+            // blackGrowth > 0 || whiteGrowth > 0
+            if (countNeighbours > 0 && random(1)<0.1) {
               int target = int(random(countNeighbours));
               int counter = 0;
                //generate daises regardless of existence based on temperature 
@@ -113,12 +211,8 @@ class Grid {
                       if (counter == target) {
                         // Reproduce
                         int dType = int(random(2));
-                        
-                        Daisy proposedDaisy = new Daisy(dType, globalTemperature);
-                          if (proposedDaisy.isValid) {           
-                            // Only create actual daisy if temperature is valid                
-                            grid[ni][nj].daisy = proposedDaisy;              
-                          }
+                        if(dType == 0) grid[ni][nj].daisy = new Daisy(dType,wAlbedo);
+                        else grid[ni][nj].daisy = new Daisy(dType,bAlbedo);
                       }
                       counter++;
                     }
@@ -138,22 +232,23 @@ class Grid {
   }
   float calculateSurface(float size, int number )
   {
-
-
     return ((PI*pow(size/2, 2)*number)/(502654))+0.001;
   }
-
+//pAnbedo min-max 0.25025-0.75075 . maxTemp 58.87, minTemp-20.84
   //calc planet temperature
   float calcGlobalTemp(float pAlbedo)
   {
-    long pholder = 16172839506L;
+    // add luminosity for user , give 3 options low , med , high
+    float  L = 1;
+    float stefan = 5.67*pow(10,-8);
+    float S =  917;
+    float pholder = (S*L)/stefan;
     float temporary = pholder*(1-pAlbedo);
     float temperature = pow(temporary, 0.25)- 273;
     return temperature;
   }
 
   //calc daisies + uncovered total surface
-
 
   int countNeighbours(int i, int j)
   {
@@ -213,6 +308,8 @@ class Grid {
   // black growth rate, white growth rate
   // if white , white growth rate
   // else if( black growth rate,
+  //all white 0.25025 , wGrate= -8.34 // bGrate = -5.24
+  // 
   float calcGrowthRate(float pAlbedo, float dAlbedo, float globalTemp)
   {
     int hAfactor = 20;
