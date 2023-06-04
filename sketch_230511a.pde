@@ -3,6 +3,7 @@ import controlP5.*;
 
 // Constants
 
+
 PImage earthImage;
 PImage whiteDaisyImage;
 PImage blackDaisyImage;
@@ -136,6 +137,7 @@ void setup() {
     .setLabel("Black Daisy Albedo (%)");
     
   slider11=cp5.addSlider("Luminosity")
+
     .setPosition(50, 210)
     .setRange(0, 2)
     .setSize(width-300, 20)
@@ -184,7 +186,9 @@ void setup() {
   );
 
   button3 = cp5.addButton("updateSimulationX10")
+
     .setPosition(width - 750, height - 40 )
+
     .setSize(120, 30)
     .setValue(0)
     .setLabel("Update Simulation x 10")
@@ -235,14 +239,17 @@ background(50);
   rect(0, 820, 1400,1000);
   fill(56, 123, 232);
   rect(820,0,1400,1000);
+
     if (previousState == 0 && currentScreen == 1)
     {
       Arr =  button2Callback();
       grid = new Grid(rows, cols, Arr);
     }
+
     createGraph("Daisies over the years(Black = Black line, White = Red line)",0,  width-550, height-990); // 0 gray 1white 2black
     createGraph("Temperature over time", 1, width-550, height-680); // 
     createGraph("Growth rate over temp(Black = Black line, White = Red line)",2, width-550, height-370);
+
     previousState = 1;
     button2.hide();
     slider7.hide();
@@ -263,6 +270,7 @@ background(50);
     button1.show();
     button3.show();
     grid.draw(); 
+
     break;
   }
 }
@@ -279,14 +287,17 @@ float[] button2Callback()
   }
 
   float[] floatArray = new float[8];
+
   floatArray[0] = slider7.getValue(); //temp
   floatArray[1] = slider8.getValue(); // pAlbedo
   floatArray[2] = slider9.getValue(); //wAlbedo
   floatArray[3] = slider10.getValue();//bAlbedo
   floatArray[4] = grayAreaSlider.getValue();//grayArea
   floatArray[5] = daisiesSlider.getValue(); // b to w ratio
+
   floatArray[6] = slider11.getValue();
   floatArray[7] = slider12.getValue();
+
   return floatArray;
 }
 
@@ -303,7 +314,6 @@ void button1Callback()
       wDaisyGrowth.add(grid.getGrowthRate(0));
       bDaisyGrowth.add(grid.getGrowthRate(1));
       println(grid.getGlobalTemperature());
-      
 }
 
 void button3Callback() {
@@ -323,9 +333,6 @@ void button3Callback() {
 }
     }
   }
-
-
-
 
 public void chooseSize(int i)
 {
