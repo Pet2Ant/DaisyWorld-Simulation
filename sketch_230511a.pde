@@ -49,7 +49,7 @@ void setup() {
   captionFont = createFont("Arial", 16);
   whiteDaisyImage = loadImage("white.png");
   blackDaisyImage = loadImage("black.png");
-  earthImage = loadImage("earth.png");
+  earthImage = loadImage("earth.jpg");
   addIcon();
   // Sliders
 
