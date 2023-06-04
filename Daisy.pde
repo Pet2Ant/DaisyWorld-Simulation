@@ -35,6 +35,7 @@ class Daisy {
     // Draw a circle.
     imageMode(CENTER);
     image(img, x + size / 2, y + size / 2, size, size);
+
   }
 
   // setters and getters
@@ -42,6 +43,16 @@ class Daisy {
   public void setAge(int age) {
     this.age = age;
   }
+
+
+  }
+
+  // setters and getters
+
+  public void setAge(int age) {
+    this.age = age;
+  }
+
 
   public int getAge() {
     return this.age;
@@ -54,4 +65,6 @@ class Daisy {
   public float getAlbedo() {
     return this.albedo;
   }
+
 }
+

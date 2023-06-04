@@ -7,30 +7,17 @@ class Grid {
   float worldAlbedo = Arr[1];
   float bAlbedo = Arr[3];
   float wAlbedo = Arr[2];
-  float death_rate = 0.1;
+
+  float death_rate = Arr[7];
+
   int[] count = new int[3];
   int counterW;
   int counterB;
   int counterG;
 
-  // Create a new grid with the given number of rows and columns.
-  //Grid(int rows, int cols) {
-  //  grid = new Cell[rows][cols];
-  //  // globalTemperature = (16,172,839,506*(1-Ap))pow(0.25) - 273;
-  //  worldAlbedo = 0.5;
-  //  // For each cell in the grid, create a new cell with a daisy in it
-  //  // with 2/3 probability. Otherwise, create a cell with no daisy.
-  //  for (int i = 0; i < rows; i++) {
-  //    for (int j = 0; j < cols; j++) {
-  //      int daisyType = int(random(3));
-  //      if (daisyType < 2) {
-  //        grid[i][j] = new Cell(i * size, j * size, new Daisy(daisyType,0.75));
-  //      } else {
-  //        grid[i][j] = new Cell(i * size, j * size, null);
-  //      }
-  //    }
-  //  }
-  //}
+  float growthFactW;
+  float growthFactB;
+
 
   Grid(int rows, int cols, float Arr[])
   {
@@ -42,12 +29,14 @@ class Grid {
 
     int surface = rows*cols;
     int amOfGray = int(Arr[4]*surface);
-    println("amount of gray"+amOfGray);
+    //println("amount of gray"+amOfGray);
     int amOfDaisies = surface - amOfGray;
     int amOfBlack = int(Arr[5]*amOfDaisies);
-    println("amount of black"+amOfBlack);
+    //println("amount of black"+amOfBlack);
     int amOfWhite = amOfDaisies - amOfBlack;
-    println("amount of white"+amOfWhite);
+
+    //println("amount of white"+amOfWhite);
+
     // Populate the grid with cells containing daisies or empty cells
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
@@ -73,6 +62,7 @@ class Grid {
           if (remainingCount[1] > 0) {
             availableTypes.add(remainingCount);
           }
+
         }
 
         // Randomly select a daisy type from the available types
@@ -91,6 +81,7 @@ class Grid {
           grid[i][j] = new Cell(cellX, cellY, null);
           counterG++;
         }
+
       }
     }
   }
@@ -128,37 +119,26 @@ class Grid {
     // Update grid with the new state
     grid = newGrid;
     count = daisyCounter(rows, cols);
-    System.out.print("gray area count"+count[0]+"\n");
-    System.out.print("w area count"+count[1]+"\n");
-    System.out.print("b area count"+count[2]+"\n");
-
 
     float pAlbedo = calcPlanetAlbedo(calculateSurface(size, count[0]), calculateSurface(size, count[1]), calculateSurface(size, count[2]), worldAlbedo, 0.75, 0.25);
-    //println("\n"+"uncovered area is"+calculateSurface(size, count[0]));
-    //println("\n"+"uncovered area is"+calculateSurface(size, count[1]));
-    //println("\n"+"uncovered area is"+calculateSurface(size, count[2]));
-    //System.out.print("albedo is "+pAlbedo+"\n");
-    float globalTemp = calcGlobalTemp(pAlbedo);
-    System.out.print(globalTemp);
-    float growthFactW = calcGrowthRate(pAlbedo, 0.75, globalTemp);
-    println("\n"+"white growth fact is"+"\n"+growthFactW);
-    float growthFactB = calcGrowthRate(pAlbedo, 0.25, globalTemp);
-    println("\n"+"black growth fact is"+"\n"+growthFactB);
+
+    globalTemperature = calcGlobalTemp(pAlbedo);
+    growthFactW = calcGrowthRate(pAlbedo, wAlbedo, globalTemperature);
+    growthFactB = calcGrowthRate(pAlbedo, bAlbedo, globalTemperature);
+
     float blackGrowth = calculateSurface(size, count[2])*(calculateSurface(size, count[0])*growthFactB - death_rate)+.001;
-    println("\n"+"surface uncov"+"\n"+calculateSurface(size, count[0]));
-    println("\n"+"surf covered from black"+"\n"+calculateSurface(size, count[2]));
-    println("\n"+"surf covered from white"+"\n"+calculateSurface(size, count[1]));
     float k =(calculateSurface(size, count[0])*growthFactW - death_rate);
     float whiteGrowth = (calculateSurface(size, count[1])*k)+.001;
-    System.out.print("\n"+"white growth is"+"\n"+whiteGrowth);
-    System.out.print("\n"+"black growth is"+"\n"+blackGrowth);
+
     // Check for reproduction and death
     // Iterate through each cell in the grid
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         // Check if there is a daisy in the cell
         if (grid[i][j].daisy != null) {
-          if (grid[i][j].daisy.age >= 20) {
+
+          if (grid[i][j].daisy.age >= 20 || globalTemperature >= 45 || globalTemperature <=5 ) {
+
             grid[i][j].daisy = null;
           } else {
             int countNeighbours =  countNeighbours(i, j);
@@ -188,13 +168,11 @@ class Grid {
                       // Check if counter is the randomly chosen target
                       if (counter == target) {
                         if (blackGrowth>whiteGrowth)
-                            {
-                              grid[ni][nj].daisy = new Daisy(1, bAlbedo);
-                            } else{
-                              grid[ni][nj].daisy = new Daisy(0, wAlbedo);
-                            }
-                          }
-                        counter++;
+                        {
+                          grid[ni][nj].daisy = new Daisy(1, bAlbedo);
+                        } else {
+                          grid[ni][nj].daisy = new Daisy(0, wAlbedo);
+                        }
                       }
                     }
                   }
@@ -205,10 +183,64 @@ class Grid {
         }
       }
     }
+  }
 
-    int[] getCount() {
-      return count;
+  int[] getCount() {
+    return count;
+  }
+  float getGrowthRate(int i)
+  {
+    switch(i) {
+    case 0:
+      return growthFactW;
+    case 1:
+      return growthFactB;
     }
+    return -1.0;
+  }
+
+
+  // calc planet albedo for planet temperature
+  float calcPlanetAlbedo(float surfaceU, float surfaceW, float surfaceB, float albedoU, float albedoW, float albedoB)
+  {
+    return surfaceU*albedoU+surfaceW*albedoW+surfaceB*albedoB;
+  }
+  float calculateSurface(float size, int number )
+  {
+    return ((PI*pow(size/2, 2)*number)/(502654))+0.001;
+  }
+  //pAnbedo min-max 0.25025-0.75075 . maxTemp 58.87, minTemp-20.84
+  //calc planet temperature
+  float calcGlobalTemp(float pAlbedo)
+  {
+    float S = -1.0;
+    // add luminosity for user , give 3 options low , med , high
+    switch(int(Arr[6])) {
+    case 0:
+      S =  760;
+      break;
+    case 1:
+      S = 917;
+      break;
+    case 2:
+      S = 1000;
+      break;
+    }
+    float  L = 1;
+    float stefan = 5.67*pow(10, -8);
+    float pholder = (S*L)/stefan;
+    float temporary = pholder*(1-pAlbedo);
+    float temperature = pow(temporary, 0.25)- 273;
+    return temperature;
+  }
+
+
+  public float getGlobalTemperature() {
+    return globalTemperature;
+  }
+
+  //calc daisies + uncovered total surface
+
 
 
 
@@ -309,15 +341,26 @@ class Grid {
       float growth_factor = 1-0.003265*(pow((22.5 - temperature), 2));
       return growth_factor;
     }
+    return arr;
   }
-  // TO DO
-  //ui :
-  //add temperatures constraints for daisies, for example daisies may be created between 17-29 deg Celcius
-  // user able to initialize global temp , initialize black and white daisies amount,
-  //initialize albedo
-  //luminosity of the sun sun grows? bigger light? but recommended values for proper experiment shown
-  // graph growth rate white/black daises + uncovered area,graph planet temperature
-  //scalable graphs
-  //TO DO  coding:
-  // add temperature constraints for reproduction, minimum and maximum temperatures that a daisy may survive,
-  //for example black max 35 C min 20C, white max 40C min 15C
+  //Black_Growth_fact = 1 -.003265*((22.5 - Temp_Black_Land)^2) {equation for a parabola}
+  //White_Growth_fact = 1 - .003265*((22.5-Temp_White_Land)^2) {equation for a parabola}
+  //Temp_Black_Land = heat_absorp_fact*(planetary_albedo - black_albedo)+Avg_Planet_Temp
+  //Temp_White_Land = heat_absorp_fact*(planetary_albedo - white_albedo)+Avg_Planet_Temp
+  //heat_absorp_fact = 20 {this controls how the local temperatures of the daisies differ from the average planetary temperature}
+  // black growth rate, white growth rate
+  // if white , white growth rate
+  // else if( black growth rate,
+  //all white 0.25025 , wGrate= -8.34 // bGrate = -5.24
+  //
+  float calcGrowthRate(float pAlbedo, float dAlbedo, float globalTemp)
+  {
+    int hAfactor = 20;
+    float temperature = hAfactor*(pAlbedo - dAlbedo)+ globalTemp;
+    float growth_factor = 1-0.003265*(pow((22.5 - temperature), 2));
+    return growth_factor;
+  }
+}
+
+
+//luminosity of the sun sun grows? bigger light? but recommended values for proper experiment shown

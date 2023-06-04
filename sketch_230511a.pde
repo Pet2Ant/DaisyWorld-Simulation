@@ -2,10 +2,20 @@ import grafica.*;
 import controlP5.*;
 
 // Constants
+
+
 PImage earthImage;
 PImage whiteDaisyImage;
 PImage blackDaisyImage;
-int counter =0;
+float timeCounter =0.0;
+ArrayList<Float> wDaisy = new ArrayList<>();
+ArrayList<Float> wDaisyGrowth = new ArrayList<>();
+ArrayList<Float> bDaisy = new ArrayList<>();
+ArrayList<Float> bDaisyGrowth = new ArrayList<>();
+ArrayList<Float>  grayAreaArrLi = new ArrayList<>();
+ArrayList<Float> globalTemp = new ArrayList<>();
+ArrayList<Float> time = new ArrayList<>();
+
 int rows;
 int cols ;
 float size ;
@@ -19,7 +29,7 @@ boolean updating=false;
 int totalSpots = 100;
 int temperature;
 float planetAlbedo, daisyAlbedo;
-Slider slider1, slider2, slider3, slider4, slider5, slider6, slider7, slider8, slider9, slider10, worldSlider, daisiesSlider, grayAreaSlider;
+Slider slider1, slider2, slider3, slider4, slider5, slider6, slider7, slider8, slider9, slider10, worldSlider, daisiesSlider, grayAreaSlider,slider11,slider12;
 ArrayList<Slider> sliders;
 Button button1, button2, button3;
 // Global variables
@@ -125,19 +135,36 @@ void setup() {
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Black Daisy Albedo (%)");
-  worldSlider = cp5.addSlider("Choose a world size")
+    
+  slider11=cp5.addSlider("Luminosity")
+
     .setPosition(50, 210)
+    .setRange(0, 2)
+    .setSize(width-300, 20)
+    .setValue(1)
+    .setNumberOfTickMarks(3)
+    .setLabel("Solar flux");
+    
+    slider12=cp5.addSlider("Death rate")
+    .setPosition(50, 250)
+    .setRange(0, 0.3)
+    .setSize(width-300, 20)
+    .setValue(0)
+    .setLabel("Death rates of virus");
+    
+  worldSlider = cp5.addSlider("Choose a world size")
+    .setPosition(50, 290)
     .setRange(0, 4)
     .setSize(width-300, 20)
     .setNumberOfTickMarks(5)
     .setValue(0);
   grayAreaSlider = cp5.addSlider("How much land would you like to leave uncovered?")
-    .setPosition(50, 250)
+    .setPosition(50, 330)
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5);
   daisiesSlider = cp5.addSlider("black to white daisy ratio")
-    .setPosition(50, 290)
+    .setPosition(50, 370)
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5);
@@ -159,7 +186,9 @@ void setup() {
   );
 
   button3 = cp5.addButton("updateSimulationX10")
-    .setPosition(width - 200, height - 40 )
+
+    .setPosition(width - 750, height - 40 )
+
     .setSize(120, 30)
     .setValue(0)
     .setLabel("Update Simulation x 10")
@@ -188,6 +217,8 @@ background(50);
     slider8.show();
     slider9.show();
     slider10.show();
+    slider11.show();
+    slider12.show();
     button2.show();
     worldSlider.show();
     grayAreaSlider.show();
@@ -204,20 +235,26 @@ background(50);
     break;
   case 1:
   background(earthImage);
+  fill(56, 123, 232);
+  rect(0, 820, 1400,1000);
+  fill(56, 123, 232);
+  rect(820,0,1400,1000);
+
     if (previousState == 0 && currentScreen == 1)
     {
       Arr =  button2Callback();
       grid = new Grid(rows, cols, Arr);
     }
-    int[] count = grid.getCount();
-    float temp = grid.getGlobalTemperature();
-    createGraph("White Daisies", count[1], count[2], count[0], temp, width-550, height-990); // 0 gray 1white 2black
-    createGraph("Black Daisies", count[1], count[2], count[0], temp, width-550, height-680); // void createGraph(String graphName, int wDaisies, int bDaisies, int grayArea, float temp, int posX, int posY)
-    createGraph("Temperature", count[1], count[2], count[0], temp, width-550, height-370);
+
+    createGraph("Daisies over the years(Black = Black line, White = Red line)",0,  width-550, height-990); // 0 gray 1white 2black
+    createGraph("Temperature over time", 1, width-550, height-680); // 
+    createGraph("Growth rate over temp(Black = Black line, White = Red line)",2, width-550, height-370);
 
     previousState = 1;
     button2.hide();
     slider7.hide();
+    slider12.hide();
+    slider11.hide();
     slider8.hide();
     slider9.hide();
     slider10.hide();
@@ -232,7 +269,8 @@ background(50);
     slider6.show();
     button1.show();
     button3.show();
-    grid.draw();
+    grid.draw(); 
+
     break;
   }
 }
@@ -248,30 +286,53 @@ float[] button2Callback()
     }
   }
 
-  float[] floatArray = new float[6];
+  float[] floatArray = new float[8];
+
   floatArray[0] = slider7.getValue(); //temp
   floatArray[1] = slider8.getValue(); // pAlbedo
   floatArray[2] = slider9.getValue(); //wAlbedo
   floatArray[3] = slider10.getValue();//bAlbedo
   floatArray[4] = grayAreaSlider.getValue();//grayArea
   floatArray[5] = daisiesSlider.getValue(); // b to w ratio
+
+  floatArray[6] = slider11.getValue();
+  floatArray[7] = slider12.getValue();
+
   return floatArray;
 }
 
 void button1Callback()
 {
   if (currentScreen == 1) grid.update();
+      int[] count = grid.getCount();
+      wDaisy.add(float(count[1]));
+      bDaisy.add(float(count[2]));
+      grayAreaArrLi.add(float(count[0]));
+      globalTemp.add(grid.getGlobalTemperature());
+      timeCounter++;
+      time.add(timeCounter);
+      wDaisyGrowth.add(grid.getGrowthRate(0));
+      bDaisyGrowth.add(grid.getGrowthRate(1));
+      println(grid.getGlobalTemperature());
 }
 
 void button3Callback() {
   if (currentScreen == 1) {
     for (int i = 0; i < 10; i++) {
       grid.update();
+      int[] count = grid.getCount();
+      wDaisy.add(float(count[1]));
+      bDaisy.add(float(count[2]));
+      grayAreaArrLi.add(float(count[0]));
+      globalTemp.add(grid.getGlobalTemperature());
+      timeCounter++;
+      time.add(timeCounter);
+      wDaisyGrowth.add(grid.getGrowthRate(0));
+      bDaisyGrowth.add(grid.getGrowthRate(1));
+      println(grid.getGlobalTemperature());
+}
     }
   }
-}
-
-
 
 public void chooseSize(int i)
 {
