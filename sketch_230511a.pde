@@ -1,3 +1,5 @@
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import grafica.*;
 import controlP5.*;
 
@@ -42,12 +44,13 @@ int currentScreen = 0;
 
 void setup() {
   size(1400, 1000);
+  surface.setTitle("DaisyWorld Simulation");
   cp5 = new ControlP5(this);
   captionFont = createFont("Arial", 16);
   whiteDaisyImage = loadImage("white.png");
   blackDaisyImage = loadImage("black.png");
   earthImage = loadImage("earth.png");
-
+  addIcon();
   // Sliders
 
   // initial screen
