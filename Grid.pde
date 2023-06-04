@@ -7,17 +7,13 @@ class Grid {
   float worldAlbedo = Arr[1];
   float bAlbedo = Arr[3];
   float wAlbedo = Arr[2];
-
   float death_rate = Arr[7];
-
   int[] count = new int[3];
   int counterW;
   int counterB;
   int counterG;
-
   float growthFactW;
   float growthFactB;
-
 
   Grid(int rows, int cols, float Arr[])
   {
@@ -34,9 +30,7 @@ class Grid {
     int amOfBlack = int(Arr[5]*amOfDaisies);
     //println("amount of black"+amOfBlack);
     int amOfWhite = amOfDaisies - amOfBlack;
-
     //println("amount of white"+amOfWhite);
-
     // Populate the grid with cells containing daisies or empty cells
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
@@ -62,7 +56,6 @@ class Grid {
           if (remainingCount[1] > 0) {
             availableTypes.add(remainingCount);
           }
-
         }
 
         // Randomly select a daisy type from the available types
@@ -81,7 +74,6 @@ class Grid {
           grid[i][j] = new Cell(cellX, cellY, null);
           counterG++;
         }
-
       }
     }
   }
@@ -121,11 +113,9 @@ class Grid {
     count = daisyCounter(rows, cols);
 
     float pAlbedo = calcPlanetAlbedo(calculateSurface(size, count[0]), calculateSurface(size, count[1]), calculateSurface(size, count[2]), worldAlbedo, 0.75, 0.25);
-
     globalTemperature = calcGlobalTemp(pAlbedo);
     growthFactW = calcGrowthRate(pAlbedo, wAlbedo, globalTemperature);
     growthFactB = calcGrowthRate(pAlbedo, bAlbedo, globalTemperature);
-
     float blackGrowth = calculateSurface(size, count[2])*(calculateSurface(size, count[0])*growthFactB - death_rate)+.001;
     float k =(calculateSurface(size, count[0])*growthFactW - death_rate);
     float whiteGrowth = (calculateSurface(size, count[1])*k)+.001;
@@ -136,9 +126,7 @@ class Grid {
       for (int j = 0; j < cols; j++) {
         // Check if there is a daisy in the cell
         if (grid[i][j].daisy != null) {
-
           if (grid[i][j].daisy.age >= 20 || globalTemperature >= 45 || globalTemperature <=5 ) {
-
             grid[i][j].daisy = null;
           } else {
             int countNeighbours =  countNeighbours(i, j);
@@ -174,6 +162,7 @@ class Grid {
                           grid[ni][nj].daisy = new Daisy(0, wAlbedo);
                         }
                       }
+                      counter++;
                     }
                   }
                 }
@@ -241,105 +230,53 @@ class Grid {
 
   //calc daisies + uncovered total surface
 
+  int countNeighbours(int i, int j)
+  {
+    int count = 0;
 
+    // Iterate over all neighbors.
+    for (int di = -1; di <= 1; di++) {
+      for (int dj = -1; dj <= 1; dj++) {
+        // Calculate neighbor's indices.
+        int ni = i + di;
+        int nj = j + dj;
 
-
-    // calc planet albedo for planet temperature
-    float calcPlanetAlbedo(float surfaceU, float surfaceW, float surfaceB, float albedoU, float albedoW, float albedoB)
-    {
-      return surfaceU*albedoU+surfaceW*albedoW+surfaceB*albedoB;
-    }
-    float calculateSurface(float size, int number )
-    {
-      return ((PI*pow(size/2, 2)*number)/(502654))+0.001;
-    }
-    //pAnbedo min-max 0.25025-0.75075 . maxTemp 58.87, minTemp-20.84
-    //calc planet temperature
-    float calcGlobalTemp(float pAlbedo)
-    {
-      // add luminosity for user , give 3 options low , med , high
-      float  L = 1;
-      float stefan = 5.67*pow(10, -8);
-      float S =  917;
-      float pholder = (S*L)/stefan;
-      float temporary = pholder*(1-pAlbedo);
-      float temperature = pow(temporary, 0.25)- 273;
-      return temperature;
-    }
-
-
-    public float getGlobalTemperature() {
-      return globalTemperature;
-    }
-
-    //calc daisies + uncovered total surface
-
-    int countNeighbours(int i, int j)
-    {
-      int count = 0;
-
-      // Iterate over all neighbors.
-      for (int di = -1; di <= 1; di++) {
-        for (int dj = -1; dj <= 1; dj++) {
-          // Calculate neighbor's indices.
-          int ni = i + di;
-          int nj = j + dj;
-
-          // Check that neighbor is on the board and is not the current cell.
-          if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && (di != 0 || dj != 0)) {
-            // Count neighbor if it is empty
-            //arr[0]=empty, arr[1]= white,arr[2]=black
-            if (grid[ni][nj].daisy == null)
-            {
-              count++;
-            }
+        // Check that neighbor is on the board and is not the current cell.
+        if (ni >= 0 && ni < rows && nj >= 0 && nj < cols && (di != 0 || dj != 0)) {
+          // Count neighbor if it is empty
+          //arr[0]=empty, arr[1]= white,arr[2]=black
+          if (grid[ni][nj].daisy == null)
+          {
+            count++;
           }
         }
       }
-      return count;
     }
-    int[] daisyCounter(int row, int col)
-    {
-      int[] arr = new int[3];
-      arr[0]=0;
-      arr[1]=0;
-      arr[2]=0;
+    return count;
+  }
+  int[] daisyCounter(int row, int col)
+  {
+    int[] arr = new int[3];
+    arr[0]=0;
+    arr[1]=0;
+    arr[2]=0;
 
-      for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col; j++) {
+    for (int i = 0; i < row; i++) {
+      for (int j = 0; j < col; j++) {
 
-          if (grid[i][j].daisy == null)
-          {
-            arr[0]++;
-          }
-          if (grid[i][j].daisy != null && grid[i][j].daisy.daisyType == 0)
-          {
-            arr[1]++;
-          }
-          if (grid[i][j].daisy != null && grid[i][j].daisy.daisyType != 0)
-          {
-            arr[2]++;
-          }
+        if (grid[i][j].daisy == null)
+        {
+          arr[0]++;
+        }
+        if (grid[i][j].daisy != null && grid[i][j].daisy.daisyType == 0)
+        {
+          arr[1]++;
+        }
+        if (grid[i][j].daisy != null && grid[i][j].daisy.daisyType != 0)
+        {
+          arr[2]++;
         }
       }
-      return arr;
-    }
-    //Black_Growth_fact = 1 -.003265*((22.5 - Temp_Black_Land)^2) {equation for a parabola}
-    //White_Growth_fact = 1 - .003265*((22.5-Temp_White_Land)^2) {equation for a parabola}
-    //Temp_Black_Land = heat_absorp_fact*(planetary_albedo - black_albedo)+Avg_Planet_Temp
-    //Temp_White_Land = heat_absorp_fact*(planetary_albedo - white_albedo)+Avg_Planet_Temp
-    //heat_absorp_fact = 20 {this controls how the local temperatures of the daisies differ from the average planetary temperature}
-    // black growth rate, white growth rate
-    // if white , white growth rate
-    // else if( black growth rate,
-    //all white 0.25025 , wGrate= -8.34 // bGrate = -5.24
-    //
-    float calcGrowthRate(float pAlbedo, float dAlbedo, float globalTemp)
-    {
-      int hAfactor = 20;
-      float temperature = hAfactor*(pAlbedo - dAlbedo)+ globalTemp;
-      float growth_factor = 1-0.003265*(pow((22.5 - temperature), 2));
-      return growth_factor;
     }
     return arr;
   }
