@@ -1,5 +1,5 @@
 // Cell class
-class Cell  {
+class Cell {
   float x, y;
   Daisy daisy;
   // Constructor.

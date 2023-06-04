@@ -1,8 +1,7 @@
 // Daisy class
 class Daisy {
-
   // Define variables
-  color c;
+  PImage img;
   // change temp to albedo
   float albedo;
   int age;
@@ -12,13 +11,13 @@ class Daisy {
   Daisy(int daisyType, float albedo) {
     // Set the color to white or black depending on the daisyType
     // create daisy albedo if black=0.75, if white 0.25
-    if( daisyType == 0)
-    { 
-      this.c = white;
-      this.albedo =albedo;
-    }else
+    if ( daisyType == 0)
     {
-      this.c = black;
+      this.img = whiteDaisyImage;
+      this.albedo = albedo;
+    } else
+    {
+      this.img = blackDaisyImage;
       this.albedo = albedo;
     }
     // the size to the width divided by the number of rows, and the age to 0
@@ -27,43 +26,32 @@ class Daisy {
     this.daisyType = daisyType;
   }
 
-//5 parametrous gia na kanei initialize to kosmo , tiny small medium large xL
-    // black daisies zoun kalitera s xamiles
-    // white daisies se ipsiles
+  //5 parametrous gia na kanei initialize to kosmo , tiny small medium large xL
+  // black daisies zoun kalitera s xamiles
+  // white daisies se ipsiles
 
 
   void draw(float x, float y) {
     // Draw a circle.
-    fill(c);
-    circle(x+ size/2, y + size/2, size);
+    imageMode(CENTER);
+    image(img, x + size / 2, y + size / 2, size, size);
   }
-  
-      /**
-     * setters and getters
-     */
-    public void setColor(int c) {
-          this.c= c;
-        }
-    
-    public int getColor() {
-          return this.c;
-        }
-    
-    public void setAge(int age) {
-          this.age = age;
-        }
-    
-    public int getAge() {
-          return this.age;
-        }
-    
-    public void setAlbedo(float albedo) {
-        this.albedo = albedo;
-}
-    
-    public float getAlbedo() {
-        return this.albedo;
-}
 
+  // setters and getters
+
+  public void setAge(int age) {
+    this.age = age;
+  }
+
+  public int getAge() {
+    return this.age;
+  }
+
+  public void setAlbedo(float albedo) {
+    this.albedo = albedo;
+  }
+
+  public float getAlbedo() {
+    return this.albedo;
+  }
 }
-        
