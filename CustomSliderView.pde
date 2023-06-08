@@ -170,20 +170,6 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
       pg.popStyle();
 
-    }else if (slider == grayAreaSlider) {
-
-      // Draw filled portion of the slider bar
-      float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
-      pg.fill(163, 82, 0); // Change this to the desired filled portion color
-      pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
-
-      // Draw handle
-      color handleColor = color(255);
-      pg.fill(handleColor);
-
-      pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
-      pg.popStyle();
-
 
       // Draw value label
       pg.pushStyle();

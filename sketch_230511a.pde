@@ -50,7 +50,7 @@ void setup() {
   // sim images
   whiteDaisyImage = loadImage("white.png");
   blackDaisyImage = loadImage("black.png");
-  earthImage = loadImage("earth.png");
+  earthImage = loadImage("earth.jpg");
   //app icon 
   addIcon();
    CustomSliderView view = new CustomSliderView();
@@ -64,46 +64,32 @@ void setup() {
     .setRange(5, 45)
     .setSize(width-300, 20)
     .setValue(25)
-    .setLabel("Temperature")
-
+    .setLabel("  Temperature")
     .setView(view);
-
-  slider1.getCaptionLabel().setFont(captionFont);
-  slider1.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider2 = cp5.addSlider("pAlbedo")
     .setPosition(50, 60)
-
     .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
-    .setLabel("Planet Albedo (%)")
+    .setLabel("  Planet Albedo (%)")
     .setView(view);
-
-  slider2.getCaptionLabel().setFont(captionFont);
-  slider2.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider3 = cp5.addSlider("whiteDaisyAlbedo")
     .setPosition(50, 110)
-
     .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
-    .setLabel("White Daisy Albedo (%)")
+    .setLabel("  White Daisy Albedo (%)")
     .setView(view);
-
-  slider3.getCaptionLabel().setFont(captionFont);
-  slider3.getValueLabel().setFont(captionFont).setColor(color(0));
 
   slider4 = cp5.addSlider("blackDaisyAlbedo")
     .setPosition(50, 160)
     .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
-    .setLabel("Black Daisy Albedo (%)")
+    .setLabel("  Black Daisy Albedo (%)")
     .setView(view);
-  slider4.getCaptionLabel().setFont(captionFont);
-  slider4.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider5 = cp5.addSlider("Luminosity")
     .setPosition(50, 210)
@@ -112,23 +98,19 @@ void setup() {
     .setValue(1)
     .setNumberOfTickMarks(3)
     .snapToTickMarks(false)
-    .setLabel("SOLAR FLUX")
+    .setLabel("  Solar Flux")
     .setView(view); // Modify active slider color
-  slider5.getCaptionLabel().setFont(captionFont);
-  slider5.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider6 = cp5.addSlider("Death rate")
     .setPosition(50, 260)
     .setRange(0, 0.3)
     .setSize(width-300, 20)
     .setValue(0.15)
-    .setLabel("Virus Death Rates")
+    .setLabel("  Virus Death Rates")
     .setView(view);
-  slider6.getCaptionLabel().setFont(captionFont);
-  slider6.getValueLabel().setFont(captionFont).setColor(color(255));
 
 
-  worldSlider = cp5.addSlider("WORLD SIZE")
+  worldSlider = cp5.addSlider("  World Size")
     .setPosition(50, 310)
     .setRange(0, 4)
     .setSize(width-300, 20)
@@ -137,34 +119,27 @@ void setup() {
     .snapToTickMarks(false)
     .setLabelVisible(false)
     .setView(view);
-  worldSlider.getCaptionLabel().setFont(captionFont);
-  worldSlider.getValueLabel().setFont(captionFont).setColor(color(15, 1, 130));
 
 
 
 
-  grayAreaSlider = cp5.addSlider("Uncovered Land")
+
+  grayAreaSlider = cp5.addSlider("  Uncovered Land")
     .setPosition(50, 360)
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5)
-    .setColorBackground(color(128, 65, 0))
-    .setColorForeground(color(163, 82, 0)) // Modify slider color
-    .setColorActive(color(196, 99, 0)) // Modify active slider color
     .setView(view);
-  grayAreaSlider.getCaptionLabel().setFont(captionFont);
-  grayAreaSlider.getValueLabel().setFont(captionFont).setColor(color(255));
 
 
 
-  daisiesSlider = cp5.addSlider("BLACK TO WHITE RATIO")
+
+  daisiesSlider = cp5.addSlider("  Black to White ratio")
     .setPosition(50, 410)
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setView(view); // Set custom view
-  daisiesSlider.getCaptionLabel().setFont(captionFont) // Modify font and font size
-    .toUpperCase(true); // Convert caption text to uppercase
 
 
   //Buttons that update or start the simulation
@@ -409,7 +384,6 @@ void button1Callback()
   time.add(timeCounter);
   wDaisyGrowth.add(grid.getGrowthRate(0));
   bDaisyGrowth.add(grid.getGrowthRate(1));
-  println(grid.getGlobalTemperature());
 }
 
 
@@ -427,7 +401,6 @@ void button3Callback() {
       time.add(timeCounter);
       wDaisyGrowth.add(grid.getGrowthRate(0));
       bDaisyGrowth.add(grid.getGrowthRate(1));
-      println(grid.getGlobalTemperature());
     }
   }
 }
@@ -445,7 +418,7 @@ void button4Callback() {
       time.add(timeCounter);
       wDaisyGrowth.add(grid.getGrowthRate(0));
       bDaisyGrowth.add(grid.getGrowthRate(1));
-      println(grid.getGlobalTemperature());
+      
     }
   }
 }
@@ -463,7 +436,7 @@ void button5Callback() {
       time.add(timeCounter);
       wDaisyGrowth.add(grid.getGrowthRate(0));
       bDaisyGrowth.add(grid.getGrowthRate(1));
-      println(grid.getGlobalTemperature());
+      
     }
   }
 }

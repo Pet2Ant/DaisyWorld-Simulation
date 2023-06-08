@@ -25,12 +25,9 @@ class Grid {
 
     int surface = rows*cols;
     int amOfGray = int(Arr[4]*surface);
-    //println("amount of gray"+amOfGray);
     int amOfDaisies = surface - amOfGray;
     int amOfBlack = int(Arr[5]*amOfDaisies);
-    //println("amount of black"+amOfBlack);
     int amOfWhite = amOfDaisies - amOfBlack;
-    //println("amount of white"+amOfWhite);
     // Populate the grid with cells containing daisies or empty cells
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
