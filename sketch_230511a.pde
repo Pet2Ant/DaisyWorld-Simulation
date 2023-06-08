@@ -55,37 +55,50 @@ void setup() {
 
   // initial screen
   slider1 = cp5.addSlider("temp")
+
     .setPosition(50, 10)
     .setRange(5, 45)
     .setSize(width-300, 20)
     .setValue(25)
     .setLabel("Temperature")
+
     .setView(new CustomSliderView());
+
   slider1.getCaptionLabel().setFont(captionFont);
   slider1.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider2 = cp5.addSlider("pAlbedo")
+
     .setPosition(50, 60)
+
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Planet Albedo (%)")
+
     .setView(new CustomSliderView());
+
   slider2.getCaptionLabel().setFont(captionFont);
   slider2.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider3 = cp5.addSlider("whiteDaisyAlbedo")
+
     .setPosition(50, 110)
+
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("White Daisy Albedo (%)")
+
     .setView(new CustomSliderView());
+
   slider3.getCaptionLabel().setFont(captionFont);
   slider3.getValueLabel().setFont(captionFont).setColor(color(0));
 
   slider4 = cp5.addSlider("blackDaisyAlbedo")
+
     .setPosition(50, 160)
+
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
@@ -108,11 +121,14 @@ void setup() {
 
   slider6 = cp5.addSlider("Death rate")
     .setPosition(50, 260)
+
     .setRange(0, 0.3)
     .setSize(width-300, 20)
     .setValue(0.15)
     .setLabel("Virus Death Rates")
+
     .setView(new CustomSliderView());
+
   slider6.getCaptionLabel().setFont(captionFont);
   slider6.getValueLabel().setFont(captionFont).setColor(color(255));
 
@@ -319,11 +335,12 @@ void draw() {
       "•  Virus Death Rates: You can set the virus death rates from 0.00 to 0.30. \n  - Set value to Z for [effect]\n\n" +
       "•  World Size: You can set the world size of the simulation from 4 different sizes. \n  - Set value to Z for [effect]\n\n" +
       "•  Uncovered Land: You can set the uncovered land ratio, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n";
-
+      
     text("Instructions for proper use:", width / 2, height / 2 + 30 );
     text(instructions1, width / 4, height / 1.5 + 140);
     text(instructions2, width - 350, height / 1.5 + 170);
     text("•  Black to White Ratio: You can set the ratio of Black to White daisies, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n", width / 2, height / 2 + 110);
+
     popStyle();
     button1.hide();
     button3.hide();

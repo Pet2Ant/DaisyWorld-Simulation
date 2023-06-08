@@ -142,3 +142,4 @@ class CustomSliderView implements ControllerView<Slider> {
     pg.popStyle();
   }
 }
+
