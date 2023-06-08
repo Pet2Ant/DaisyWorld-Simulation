@@ -1,6 +1,8 @@
 // Grid class
 class Grid {
   Cell[][] grid;
+  // initialize worldAlbedo =0.5
+  // initialize globaltemp 20
   private float globalTemperature = Arr[0];
   private float worldAlbedo = Arr[1];
   private float bAlbedo = Arr[3];
@@ -169,11 +171,11 @@ class Grid {
     }
   }
   //return daisy count 
-  int[] getCount() {
+  private int[] getCount() {
     return count;
   }
   // return growth rate for black and white daisies
-   float getGrowthRate(int i)
+  private float getGrowthRate(int i)
   {
     switch(i) {
     case 0:
@@ -219,13 +221,13 @@ class Grid {
   }
 
   // return global temperature
-  public float getGlobalTemperature() {
+  private float getGlobalTemperature() {
     return globalTemperature;
   }
 
   //calc daisies + uncovered total surface
 
-  int countNeighbours(int i, int j)
+ private int countNeighbours(int i, int j)
   {
     int count = 0;
 
@@ -283,7 +285,7 @@ class Grid {
   //Temp_White_Land = heat_absorp_fact*(planetary_albedo - white_albedo)+Avg_Planet_Temp
   //heat_absorp_fact = 20 {this controls how the local temperatures of the daisies differ from the average planetary temperature}
  
-  float calcGrowthRate(float pAlbedo, float dAlbedo, float globalTemp)
+  private float calcGrowthRate(float pAlbedo, float dAlbedo, float globalTemp)
   {
     int hAfactor = 20;
     float temperature = hAfactor*(pAlbedo - dAlbedo)+ globalTemp;
