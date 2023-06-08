@@ -55,50 +55,37 @@ void setup() {
 
   // initial screen
   slider1 = cp5.addSlider("temp")
-
     .setPosition(50, 10)
     .setRange(5, 45)
     .setSize(width-300, 20)
     .setValue(25)
     .setLabel("Temperature")
-
     .setView(new CustomSliderView());
-
   slider1.getCaptionLabel().setFont(captionFont);
   slider1.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider2 = cp5.addSlider("pAlbedo")
-
     .setPosition(50, 60)
-
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Planet Albedo (%)")
-
     .setView(new CustomSliderView());
-
   slider2.getCaptionLabel().setFont(captionFont);
   slider2.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider3 = cp5.addSlider("whiteDaisyAlbedo")
-
     .setPosition(50, 110)
-
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("White Daisy Albedo (%)")
-
     .setView(new CustomSliderView());
-
   slider3.getCaptionLabel().setFont(captionFont);
   slider3.getValueLabel().setFont(captionFont).setColor(color(0));
 
   slider4 = cp5.addSlider("blackDaisyAlbedo")
-
     .setPosition(50, 160)
-
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
@@ -126,9 +113,7 @@ void setup() {
     .setSize(width-300, 20)
     .setValue(0.15)
     .setLabel("Virus Death Rates")
-
     .setView(new CustomSliderView());
-
   slider6.getCaptionLabel().setFont(captionFont);
   slider6.getValueLabel().setFont(captionFont).setColor(color(255));
 
@@ -141,10 +126,6 @@ void setup() {
     .setValue(2)
     .snapToTickMarks(false)
     .setLabelVisible(false)
-
-    //.setColorBackground(color(9, 0, 87))
-    //.setColorForeground(color(15, 1, 130)) // Modify slider color
-    //.setColorActive(color(20, 2, 168))
     .setView(new CustomSliderView());
   worldSlider.getCaptionLabel().setFont(captionFont);
   worldSlider.getValueLabel().setFont(captionFont).setColor(color(15, 1, 130));
@@ -157,9 +138,6 @@ void setup() {
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5)
-    .setColorBackground(color(128, 65, 0))
-    .setColorForeground(color(163, 82, 0)) // Modify slider color
-    .setColorActive(color(196, 99, 0)) // Modify active slider color
     .setView(new CustomSliderView());
   grayAreaSlider.getCaptionLabel().setFont(captionFont);
   grayAreaSlider.getValueLabel().setFont(captionFont).setColor(color(255));
@@ -275,31 +253,27 @@ void setup() {
   );
 }
 
-// Override default tick mark labels
-void drawTickLabels() {
-
-  final String[] letters = { "A", "B", "C", "D", "E" };
-  pushStyle();
-  fill(250);
-  textAlign(CENTER, BOTTOM);
-  textSize(48);
-  for (int i = 0; i < letters.length; i++) {
-    float xPos = map(i, 0, 4, 50, width-300);
-    text(letters[i], xPos, worldSlider.getWidth() - 5);
-  }
-  popStyle();
-}
-
 void drawCurrentValueLabel() {
-  final String[] letters = { "XS", "S", "M", "L", "XL" };
+  final String[] worldSize = { "XS", "S", "M", "L", "XL" };
+  final String[] solarFlux = {"LOW", "MID", "HIGH"};
   int index = (int) worldSlider.getValue();
-  String label = (index >= 0 && index < letters.length) ? letters[index] : "";
+  int index2 = (int) slider5.getValue();
+  String label = (index >= 0 && index < worldSize.length) ? worldSize[index] : "";
+  String label2 = (index2 >= 0 && index2 < solarFlux.length) ? solarFlux[index2] : "";
 
+  // Calculate marker positions
+  float worldSliderX = map(worldSlider.getValue(), worldSlider.getMin(), worldSlider.getMax(), 0, worldSlider.getWidth());
+  float solarFluxSliderX = map(slider5.getValue(), slider5.getMin(), slider5.getMax(), 0, slider5.getWidth());
+
+  // Draw value labels next to the marker
   pushStyle();
-  fill(255);
   textAlign(LEFT, TOP);
-  textSize(36);
-  text(label, 50 + worldSlider.getWidth() / 20 - 95, 275);
+  textSize(18);
+  fill(255);
+  float tooltipYWorld = worldSlider.getHeight() + 10;
+  float tooltipYSolar = slider5.getHeight() + 10;
+  text(label, worldSliderX + 43, tooltipYWorld + 300 );
+  text(label2, solarFluxSliderX + 35, tooltipYSolar + 200);
   popStyle();
 }
 
@@ -308,7 +282,6 @@ void draw() {
   background(50);
   switch(currentScreen) {
   case 0:
-    drawTickLabels();
     drawCurrentValueLabel();
     slider1.show();
     slider2.show();
@@ -335,7 +308,7 @@ void draw() {
       "•  Virus Death Rates: You can set the virus death rates from 0.00 to 0.30. \n  - Set value to Z for [effect]\n\n" +
       "•  World Size: You can set the world size of the simulation from 4 different sizes. \n  - Set value to Z for [effect]\n\n" +
       "•  Uncovered Land: You can set the uncovered land ratio, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n";
-      
+
     text("Instructions for proper use:", width / 2, height / 2 + 30 );
     text(instructions1, width / 4, height / 1.5 + 140);
     text(instructions2, width - 350, height / 1.5 + 170);

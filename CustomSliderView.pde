@@ -20,7 +20,7 @@ class CustomSliderView implements ControllerView<Slider> {
       // Draw handle
       color handleColor = color(255);
       pg.fill(handleColor);
-      
+
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
       pg.popStyle();
     } else if (slider == slider5) {
@@ -33,7 +33,7 @@ class CustomSliderView implements ControllerView<Slider> {
       // Draw handle
       color handleColor = color(255);
       pg.fill(handleColor);
-      
+
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
       pg.popStyle();
     } else if (slider == slider1) {
@@ -46,8 +46,19 @@ class CustomSliderView implements ControllerView<Slider> {
       // Draw handle
       color handleColor = color(255);
       pg.fill(handleColor);
-      
+
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
+      pg.popStyle();
+
+      // Draw value label
+      pg.pushStyle();
+      float tooltipX = handlePosition - 20;
+      float tooltipY = slider.getHeight() + 10;
+      String valueText = String.format("%.2f", slider.getValue());
+      // Tooltip text
+      pg.fill(255);
+      pg.textFont(captionFont);
+      pg.text(valueText, tooltipX + 5, tooltipY + 10);
       pg.popStyle();
     } else if (slider == slider2) {
 
@@ -59,8 +70,19 @@ class CustomSliderView implements ControllerView<Slider> {
       // Draw handle
       color handleColor = color(255);
       pg.fill(handleColor);
-      
+
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
+      pg.popStyle();
+
+      // Draw value label
+      pg.pushStyle();
+      float tooltipX = handlePosition - 20;
+      float tooltipY = slider.getHeight() + 10;
+      String valueText = String.format("%.2f", slider.getValue());
+      // Tooltip text
+      pg.fill(255);
+      pg.textFont(captionFont);
+      pg.text(valueText, tooltipX + 5, tooltipY + 10);
       pg.popStyle();
     } else if (slider == slider3) {
 
@@ -72,8 +94,19 @@ class CustomSliderView implements ControllerView<Slider> {
       // Draw handle
       color handleColor = color(255);
       pg.fill(handleColor);
-      
+
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
+      pg.popStyle();
+
+      // Draw value label
+      pg.pushStyle();
+      float tooltipX = handlePosition - 20;
+      float tooltipY = slider.getHeight() + 10;
+      String valueText = String.format("%.2f", slider.getValue());
+      // Tooltip text
+      pg.fill(255);
+      pg.textFont(captionFont);
+      pg.text(valueText, tooltipX + 5, tooltipY + 10);
       pg.popStyle();
     } else if (slider == slider4) {
 
@@ -85,8 +118,19 @@ class CustomSliderView implements ControllerView<Slider> {
       // Draw handle
       color handleColor = color(255);
       pg.fill(handleColor);
-      
+
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
+      pg.popStyle();
+
+      // Draw value label
+      pg.pushStyle();
+      float tooltipX = handlePosition - 20;
+      float tooltipY = slider.getHeight() + 10;
+      String valueText = String.format("%.2f", slider.getValue());
+      // Tooltip text
+      pg.fill(255);
+      pg.textFont(captionFont);
+      pg.text(valueText, tooltipX + 5, tooltipY + 10);
       pg.popStyle();
     } else if (slider == slider6) {
 
@@ -98,10 +142,45 @@ class CustomSliderView implements ControllerView<Slider> {
       // Draw handle
       color handleColor = color(255);
       pg.fill(handleColor);
-      
+
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
       pg.popStyle();
-    }else {
+
+      // Draw value label
+      pg.pushStyle();
+      float tooltipX = handlePosition - 20;
+      float tooltipY = slider.getHeight() + 10;
+      String valueText = String.format("%.2f", slider.getValue());
+      // Tooltip text
+      pg.fill(255);
+      pg.textFont(captionFont);
+      pg.text(valueText, tooltipX + 5, tooltipY + 10);
+      pg.popStyle();
+    } else if (slider == grayAreaSlider) {
+
+      // Draw filled portion of the slider bar
+      float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
+      pg.fill(163, 82, 0); // Change this to the desired filled portion color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
+
+      // Draw handle
+      color handleColor = color(255);
+      pg.fill(handleColor);
+
+      pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
+      pg.popStyle();
+
+      // Draw value label
+      pg.pushStyle();
+      float tooltipX = handlePosition - 20;
+      float tooltipY = slider.getHeight() + 10;
+      String valueText = String.format("%.2f", slider.getValue());
+      // Tooltip text
+      pg.fill(255);
+      pg.textFont(captionFont);
+      pg.text(valueText, tooltipX + 5, tooltipY + 10);
+      pg.popStyle();
+    } else {
 
       // Draw gradient
       for (int i = 0; i < slider.getWidth(); i++) {
@@ -127,7 +206,7 @@ class CustomSliderView implements ControllerView<Slider> {
       // Tooltip text
       pg.fill(255);
       pg.textFont(captionFont);
-      pg.text(valueText, tooltipX + 5, tooltipY + 15);
+      pg.text(valueText, tooltipX + 5, tooltipY + 10);
       pg.popStyle();
     }
 
@@ -142,4 +221,3 @@ class CustomSliderView implements ControllerView<Slider> {
     pg.popStyle();
   }
 }
-
