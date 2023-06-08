@@ -1,10 +1,13 @@
 void createGraph(String graphName,int l, int posX, int posY) {
   switch(l) {
   case 0:
+  // get size of the arrays to create the graph
   int numPoints = wDaisy.size();
   int numPoints2 =bDaisy.size();
+  // Create an array to store the points
   GPointsArray points = new GPointsArray(numPoints);
-  GPointsArray points2 = new GPointsArray(numPoints2);// Create an array to store the points
+  GPointsArray points2 = new GPointsArray(numPoints2);
+  // get the points needed for the graphs 
   for (int i = 0; i < numPoints; i++) {
     float xValue = time.get(i);
     float y1Value = wDaisy.get(i);
@@ -15,7 +18,7 @@ void createGraph(String graphName,int l, int posX, int posY) {
     float y2Value = bDaisy.get(j);
     points2.add(xValue,y2Value);
   }
-
+  // new plot for the graph 
   GPlot plot = new GPlot(this, posX, posY, 450, 300); // Create a plot and set its position and size on the screen
 
   // Labels

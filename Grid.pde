@@ -111,7 +111,8 @@ class Grid {
     // Update grid with the new state
     grid = newGrid;
     count = daisyCounter(rows, cols);
-
+    // Calculate the planetary albedo, global temperature, and growth factors with the methods you can find below
+    // calculate black and white growth for the daisies which are based on the surface they cover,the surface uncovered and their growth factors minus the death rate of the virus they have
     float pAlbedo = calcPlanetAlbedo(calculateSurface(size, count[0]), calculateSurface(size, count[1]), calculateSurface(size, count[2]), worldAlbedo, 0.75, 0.25);
     globalTemperature = calcGlobalTemp(pAlbedo);
     growthFactW = calcGrowthRate(pAlbedo, wAlbedo, globalTemperature);
@@ -132,16 +133,10 @@ class Grid {
             int countNeighbours =  countNeighbours(i, j);
 
             // Reproduction
-            // calc growthfactor
-
-            // black i white >0
-            // give priority to highest growthRate
-            // blackGrowth > 0 || whiteGrowth > 0
-            // 1 if pou kanei compare an to blackgrowth einai maeglaitero apo to whitegrowth kane produce black an einai megalitero apo random(0.1), kai meta nested 2ero if me whitegrowth>blackgrowth me ena random apo 0 eos 0.1 kai 3o
+            // check if neighbours are empty and give 10% chance of reproduction for the daisies.
             if (countNeighbours > 0 && random(1) < 0.1) {
               int target = int(random(countNeighbours));
               int counter = 0;
-              //generate daises regardless of existence based on temperature
               // Iterate through each neighboring cell
               for (int di = -1; di <= 1; di++) {
                 for (int dj = -1; dj <= 1; dj++) {
@@ -155,11 +150,16 @@ class Grid {
                     if (grid[ni][nj].daisy == null) {
                       // Check if counter is the randomly chosen target
                       if (counter == target) {
+                        // check which daisy should be reproduced based on the growth rate of the daisies 
+                        // if black growth is bigger than white growth populate with black otherwise populate with white 
                         if (blackGrowth>whiteGrowth)
                         {
                           grid[ni][nj].daisy = new Daisy(1, bAlbedo);
-                        } else {
+                        } else if(blackGrowth<whiteGrowth) {
                           grid[ni][nj].daisy = new Daisy(0, wAlbedo);
+                        }else{
+                          // add random chance for white or black if both growth rates are equal 
+                          grid[ni][nj].daisy = new Daisy(int(random(2)), random(1) < 0.5 ? wAlbedo : bAlbedo);
                         }
                       }
                       counter++;
@@ -173,11 +173,12 @@ class Grid {
       }
     }
   }
-
+  //return daisy count 
   int[] getCount() {
     return count;
   }
-  float getGrowthRate(int i)
+  // return growth rate for black and white daisies
+   float getGrowthRate(int i)
   {
     switch(i) {
     case 0:
@@ -190,17 +191,16 @@ class Grid {
 
 
   // calc planet albedo for planet temperature
-  float calcPlanetAlbedo(float surfaceU, float surfaceW, float surfaceB, float albedoU, float albedoW, float albedoB)
+  private float calcPlanetAlbedo(float surfaceU, float surfaceW, float surfaceB, float albedoU, float albedoW, float albedoB)
   {
     return surfaceU*albedoU+surfaceW*albedoW+surfaceB*albedoB;
   }
-  float calculateSurface(float size, int number )
+  private float calculateSurface(float size, int number )
   {
     return ((PI*pow(size/2, 2)*number)/(502654))+0.001;
   }
-  //pAnbedo min-max 0.25025-0.75075 . maxTemp 58.87, minTemp-20.84
   //calc planet temperature
-  float calcGlobalTemp(float pAlbedo)
+  private float calcGlobalTemp(float pAlbedo)
   {
     float S = -1.0;
     // add luminosity for user , give 3 options low , med , high
@@ -223,7 +223,7 @@ class Grid {
     return temperature;
   }
 
-
+  // return global temperature
   public float getGlobalTemperature() {
     return globalTemperature;
   }
@@ -254,7 +254,8 @@ class Grid {
     }
     return count;
   }
-  int[] daisyCounter(int row, int col)
+  // count the amount of daisies at any given moment 
+ private int[] daisyCounter(int row, int col)
   {
     int[] arr = new int[3];
     arr[0]=0;
@@ -280,16 +281,13 @@ class Grid {
     }
     return arr;
   }
+  // calculations for growthrate factors based on the equations below 
   //Black_Growth_fact = 1 -.003265*((22.5 - Temp_Black_Land)^2) {equation for a parabola}
   //White_Growth_fact = 1 - .003265*((22.5-Temp_White_Land)^2) {equation for a parabola}
   //Temp_Black_Land = heat_absorp_fact*(planetary_albedo - black_albedo)+Avg_Planet_Temp
   //Temp_White_Land = heat_absorp_fact*(planetary_albedo - white_albedo)+Avg_Planet_Temp
   //heat_absorp_fact = 20 {this controls how the local temperatures of the daisies differ from the average planetary temperature}
-  // black growth rate, white growth rate
-  // if white , white growth rate
-  // else if( black growth rate,
-  //all white 0.25025 , wGrate= -8.34 // bGrate = -5.24
-  //
+ 
   float calcGrowthRate(float pAlbedo, float dAlbedo, float globalTemp)
   {
     int hAfactor = 20;
@@ -298,6 +296,3 @@ class Grid {
     return growth_factor;
   }
 }
-
-
-//luminosity of the sun sun grows? bigger light? but recommended values for proper experiment shown
