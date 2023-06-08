@@ -55,50 +55,55 @@ void setup() {
 
   // initial screen
   slider1 = cp5.addSlider("temp")
-    .setPosition(50, 50)
+
+    .setPosition(50, 10)
     .setRange(5, 45)
     .setSize(width-300, 20)
     .setValue(25)
     .setLabel("Temperature")
-    .setColorBackground(color(97, 2, 2))
-    .setColorForeground(color(150, 6, 6))
-    .setColorActive(color(196, 0, 0)); // Modify active slider color
+
+    .setView(new CustomSliderView());
+
   slider1.getCaptionLabel().setFont(captionFont);
   slider1.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider2 = cp5.addSlider("pAlbedo")
-    .setPosition(50, 90)
+
+    .setPosition(50, 60)
+
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Planet Albedo (%)")
-    .setColorBackground(color(7, 82, 0))
-    .setColorForeground(color(11, 133, 0)) // Modify slider color
-    .setColorActive(color(14, 166, 0)); // Modify active slider color
+
+    .setView(new CustomSliderView());
+
   slider2.getCaptionLabel().setFont(captionFont);
   slider2.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider3 = cp5.addSlider("whiteDaisyAlbedo")
-    .setPosition(50, 130)
+
+    .setPosition(50, 110)
+
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("White Daisy Albedo (%)")
-    .setColorBackground(color(196, 194, 194))
-    .setColorForeground(color(227, 225, 225)) // Modify slider color
-    .setColorActive(color(255, 250, 250)); // Modify active slider color
+
+    .setView(new CustomSliderView());
+
   slider3.getCaptionLabel().setFont(captionFont);
   slider3.getValueLabel().setFont(captionFont).setColor(color(0));
 
   slider4 = cp5.addSlider("blackDaisyAlbedo")
-    .setPosition(50, 170)
+
+    .setPosition(50, 160)
+
     .setRange(0.0, 1.0)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Black Daisy Albedo (%)")
-    .setColorBackground(color(32, 32, 32))
-    .setColorForeground(color(15, 15, 15))
-    .setColorActive(color(10, 10, 10));
+    .setView(new CustomSliderView());
   slider4.getCaptionLabel().setFont(captionFont);
   slider4.getValueLabel().setFont(captionFont).setColor(color(255));
 
@@ -115,20 +120,21 @@ void setup() {
   slider5.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider6 = cp5.addSlider("Death rate")
-    .setPosition(50, 250)
+    .setPosition(50, 260)
+
     .setRange(0, 0.3)
     .setSize(width-300, 20)
     .setValue(0.15)
     .setLabel("Virus Death Rates")
-    .setColorBackground(color(55, 1, 117))
-    .setColorForeground(color(72, 3, 150)) // Modify slider color
-    .setColorActive(color(91, 2, 191)); // Modify active slider color
+
+    .setView(new CustomSliderView());
+
   slider6.getCaptionLabel().setFont(captionFont);
   slider6.getValueLabel().setFont(captionFont).setColor(color(255));
 
 
   worldSlider = cp5.addSlider("WORLD SIZE")
-    .setPosition(50, 290)
+    .setPosition(50, 310)
     .setRange(0, 4)
     .setSize(width-300, 20)
     .setNumberOfTickMarks(5)
@@ -147,20 +153,21 @@ void setup() {
 
 
   grayAreaSlider = cp5.addSlider("Uncovered Land")
-    .setPosition(50, 330)
+    .setPosition(50, 360)
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setColorBackground(color(128, 65, 0))
     .setColorForeground(color(163, 82, 0)) // Modify slider color
-    .setColorActive(color(196, 99, 0)); // Modify active slider color
+    .setColorActive(color(196, 99, 0)) // Modify active slider color
+    .setView(new CustomSliderView());
   grayAreaSlider.getCaptionLabel().setFont(captionFont);
   grayAreaSlider.getValueLabel().setFont(captionFont).setColor(color(255));
 
 
 
   daisiesSlider = cp5.addSlider("BLACK TO WHITE RATIO")
-    .setPosition(50, 400)
+    .setPosition(50, 410)
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5)
@@ -192,7 +199,7 @@ void setup() {
   );
 
   button2 = cp5.addButton("startSimulation")
-    .setPosition(width/4, height/2 - 40)
+    .setPosition(width/4, height/2 -30)
     .setLabel("Start Simulation")
     .setSize(width/2, 30)
     .setValue(1)
@@ -328,11 +335,12 @@ void draw() {
       "•  Virus Death Rates: You can set the virus death rates from 0.00 to 0.30. \n  - Set value to Z for [effect]\n\n" +
       "•  World Size: You can set the world size of the simulation from 4 different sizes. \n  - Set value to Z for [effect]\n\n" +
       "•  Uncovered Land: You can set the uncovered land ratio, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n";
+      
+    text("Instructions for proper use:", width / 2, height / 2 + 30 );
+    text(instructions1, width / 4, height / 1.5 + 140);
+    text(instructions2, width - 350, height / 1.5 + 170);
+    text("•  Black to White Ratio: You can set the ratio of Black to White daisies, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n", width / 2, height / 2 + 110);
 
-    text("Instructions for proper use:", width / 2, height / 2 - 10 );
-    text(instructions1, width / 4, height / 1.5 + 110);
-    text(instructions2, width - 350, height / 1.5 + 140);
-    text("•  Black to White Ratio: You can set the ratio of Black to White daisies, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n", width / 2, height / 2 + 80);
     popStyle();
     button1.hide();
     button3.hide();
