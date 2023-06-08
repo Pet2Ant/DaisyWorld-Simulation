@@ -1,8 +1,7 @@
 // Cell class
 class Cell {
-  float x, y;
-  Daisy daisy;
-
+  private float x, y;
+ private  Daisy daisy;
   // Constructor.
   Cell(float x, float y, Daisy daisy) {
     this.x = x; // x-coordinate of the cell
@@ -10,7 +9,7 @@ class Cell {
     this.daisy = daisy; // the daisy that this cell contains
   }
 
-  void draw() {
+ private void draw() {
     // If a Daisy is available, draw it.
     if (daisy != null) {
       daisy.draw(x, y);
