@@ -69,7 +69,7 @@ void setup() {
 
   slider2 = cp5.addSlider("pAlbedo")
     .setPosition(50, 60)
-    .setRange(0.25, 0.75)
+    .setRange(0.25, 0.75002)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("  Planet Albedo (%)")
