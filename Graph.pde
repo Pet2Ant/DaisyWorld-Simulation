@@ -103,7 +103,9 @@ void createGraph(String graphName,int l, int posX, int posY) {
 
   // Labels
   plot3.setTitleText(graphName);
+
   plot3.getXAxis().setAxisLabelText("Temperature");
+
   plot3.getYAxis().setAxisLabelText("Daisy growth rate");
 
   // Set the color based on the graph name

@@ -1,7 +1,7 @@
 // Cell class
 class Cell {
-  private float x, y;
- private  Daisy daisy;
+  float x, y;
+  Daisy daisy;
   // Constructor.
   Cell(float x, float y, Daisy daisy) {
     this.x = x; // x-coordinate of the cell

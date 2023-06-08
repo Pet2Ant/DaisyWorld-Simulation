@@ -2,7 +2,7 @@
 class Daisy {
   // Define variables
   private PImage img;
-  private float albedo;
+  float albedo;
   private int age;
   private int daisyType;
 
@@ -31,3 +31,4 @@ private void draw(float x, float y) {
     image(img, x + size / 2, y + size / 2, size, size);
   }
 }
+
