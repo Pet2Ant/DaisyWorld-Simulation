@@ -65,27 +65,33 @@ void setup() {
     .setSize(width-300, 20)
     .setValue(25)
     .setLabel("Temperature")
+
     .setView(view);
+
   slider1.getCaptionLabel().setFont(captionFont);
   slider1.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider2 = cp5.addSlider("pAlbedo")
     .setPosition(50, 60)
+
     .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Planet Albedo (%)")
     .setView(view);
+
   slider2.getCaptionLabel().setFont(captionFont);
   slider2.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider3 = cp5.addSlider("whiteDaisyAlbedo")
     .setPosition(50, 110)
+
     .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("White Daisy Albedo (%)")
     .setView(view);
+
   slider3.getCaptionLabel().setFont(captionFont);
   slider3.getValueLabel().setFont(captionFont).setColor(color(0));
 
@@ -260,16 +266,28 @@ void setup() {
 }
 
 // Override default tick mark labels, with strings containing the needed values
-void drawCurrentValueLabel() {
-  final String[] letters = { "XS", "S", "M", "L", "XL" };
-  int index = (int) worldSlider.getValue();
-  String label = (index >= 0 && index < letters.length) ? letters[index] : "";
 
+void drawCurrentValueLabel() {
+  final String[] worldSize = { "XS", "S", "M", "L", "XL" };
+  final String[] solarFlux = {"LOW", "MID", "HIGH"};
+  int index = (int) worldSlider.getValue();
+  int index2 = (int) slider5.getValue();
+  String label = (index >= 0 && index < worldSize.length) ? worldSize[index] : "";
+  String label2 = (index2 >= 0 && index2 < solarFlux.length) ? solarFlux[index2] : "";
+
+  // Calculate marker positions
+  float worldSliderX = map(worldSlider.getValue(), worldSlider.getMin(), worldSlider.getMax(), 0, worldSlider.getWidth());
+  float solarFluxSliderX = map(slider5.getValue(), slider5.getMin(), slider5.getMax(), 0, slider5.getWidth());
+
+  // Draw value labels next to the marker
   pushStyle();
-  fill(255);
   textAlign(LEFT, TOP);
   textSize(18);
-  text(label, 50 + worldSlider.getWidth() / 20 - 95, 275);
+  fill(255);
+  float tooltipYWorld = worldSlider.getHeight() + 10;
+  float tooltipYSolar = slider5.getHeight() + 10;
+  text(label, worldSliderX + 43, tooltipYWorld + 300 );
+  text(label2, solarFluxSliderX + 35, tooltipYSolar + 200);
   popStyle();
 }
 
