@@ -48,7 +48,7 @@ class Grid {
         // Filter out daisy types that have reached their maximum counts
         ArrayList<int[]> availableTypes = new ArrayList<int[]>();
         for (int[] remainingCount : remainingCounts) {
-          if (remainingCount[1] > 0) {
+          if (remainingCount[1] >= 0) {
             availableTypes.add(remainingCount);
           }
         }
