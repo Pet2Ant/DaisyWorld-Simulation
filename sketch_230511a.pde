@@ -3,7 +3,7 @@ import javax.swing.SwingUtilities;
 import grafica.*;
 import controlP5.*;
 
-// Constants
+// Initialization of global variables 
 
 PImage earthImage;
 PImage whiteDaisyImage;
@@ -16,7 +16,7 @@ ArrayList<Float> bDaisyGrowth = new ArrayList<>();
 ArrayList<Float>  grayAreaArrLi = new ArrayList<>();
 ArrayList<Float> globalTemp = new ArrayList<>();
 ArrayList<Float> time = new ArrayList<>();
-
+// init of grid cols rows size buttons and sliders
 int rows;
 int cols ;
 float size ;
@@ -41,69 +41,61 @@ PFont captionFont;
 ControlP5 cp5;
 int currentScreen = 0;
 
-
+// setup method , sliders and buttons creation
 void setup() {
   size(1400, 1000);
   surface.setTitle("DaisyWorld Simulation");
   cp5 = new ControlP5(this);
   captionFont = createFont("Arial", 16);
+  // sim images
   whiteDaisyImage = loadImage("white.png");
   blackDaisyImage = loadImage("black.png");
-  earthImage = loadImage("earth.jpg");
+  earthImage = loadImage("earth.png");
+  //app icon 
   addIcon();
+   CustomSliderView view = new CustomSliderView();
   // Sliders
-
+  
   // initial screen
+  // we changed how the initial sliders worked and made them look a bit more "modern"
+  //by adding the customersliderview 
   slider1 = cp5.addSlider("temp")
-
     .setPosition(50, 10)
     .setRange(5, 45)
     .setSize(width-300, 20)
     .setValue(25)
     .setLabel("Temperature")
-
-    .setView(new CustomSliderView());
-
+    .setView(view);
   slider1.getCaptionLabel().setFont(captionFont);
   slider1.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider2 = cp5.addSlider("pAlbedo")
-
     .setPosition(50, 60)
-
-    .setRange(0.0, 1.0)
+    .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Planet Albedo (%)")
-
-    .setView(new CustomSliderView());
-
+    .setView(view);
   slider2.getCaptionLabel().setFont(captionFont);
   slider2.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider3 = cp5.addSlider("whiteDaisyAlbedo")
-
     .setPosition(50, 110)
-
-    .setRange(0.0, 1.0)
+    .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("White Daisy Albedo (%)")
-
-    .setView(new CustomSliderView());
-
+    .setView(view);
   slider3.getCaptionLabel().setFont(captionFont);
   slider3.getValueLabel().setFont(captionFont).setColor(color(0));
 
   slider4 = cp5.addSlider("blackDaisyAlbedo")
-
     .setPosition(50, 160)
-
-    .setRange(0.0, 1.0)
+    .setRange(0.25, 0.75)
     .setSize(width-300, 20)
     .setValue(0.5)
     .setLabel("Black Daisy Albedo (%)")
-    .setView(new CustomSliderView());
+    .setView(view);
   slider4.getCaptionLabel().setFont(captionFont);
   slider4.getValueLabel().setFont(captionFont).setColor(color(255));
 
@@ -115,20 +107,17 @@ void setup() {
     .setNumberOfTickMarks(3)
     .snapToTickMarks(false)
     .setLabel("SOLAR FLUX")
-    .setView(new CustomSliderView()); // Modify active slider color
+    .setView(view); // Modify active slider color
   slider5.getCaptionLabel().setFont(captionFont);
   slider5.getValueLabel().setFont(captionFont).setColor(color(255));
 
   slider6 = cp5.addSlider("Death rate")
     .setPosition(50, 260)
-
     .setRange(0, 0.3)
     .setSize(width-300, 20)
     .setValue(0.15)
     .setLabel("Virus Death Rates")
-
-    .setView(new CustomSliderView());
-
+    .setView(view);
   slider6.getCaptionLabel().setFont(captionFont);
   slider6.getValueLabel().setFont(captionFont).setColor(color(255));
 
@@ -141,11 +130,7 @@ void setup() {
     .setValue(2)
     .snapToTickMarks(false)
     .setLabelVisible(false)
-
-    //.setColorBackground(color(9, 0, 87))
-    //.setColorForeground(color(15, 1, 130)) // Modify slider color
-    //.setColorActive(color(20, 2, 168))
-    .setView(new CustomSliderView());
+    .setView(view);
   worldSlider.getCaptionLabel().setFont(captionFont);
   worldSlider.getValueLabel().setFont(captionFont).setColor(color(15, 1, 130));
 
@@ -160,7 +145,7 @@ void setup() {
     .setColorBackground(color(128, 65, 0))
     .setColorForeground(color(163, 82, 0)) // Modify slider color
     .setColorActive(color(196, 99, 0)) // Modify active slider color
-    .setView(new CustomSliderView());
+    .setView(view);
   grayAreaSlider.getCaptionLabel().setFont(captionFont);
   grayAreaSlider.getValueLabel().setFont(captionFont).setColor(color(255));
 
@@ -171,14 +156,13 @@ void setup() {
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5)
-
-    .setView(new CustomSliderView()); // Set custom view
+    .setView(view); // Set custom view
   daisiesSlider.getCaptionLabel().setFont(captionFont) // Modify font and font size
     .toUpperCase(true); // Convert caption text to uppercase
 
 
-  //Buttons that update the simulation
-
+  //Buttons that update or start the simulation
+  //added callback methods to update the simulation as needed 
   button1 = cp5.addButton("gridUpdate")
     .setPosition(100, height - 60)
     .setSize(240, 30)
@@ -197,7 +181,7 @@ void setup() {
     }
   }
   );
-
+  // start sim button, callback method that fills a global float array with the users world initialization
   button2 = cp5.addButton("startSimulation")
     .setPosition(width/4, height/2 -30)
     .setLabel("Start Simulation")
@@ -216,7 +200,7 @@ void setup() {
     }
   }
   );
-
+  // different simulation update buttons 10x, 50x and 100x timeflow 
   button3 = cp5.addButton("updateSimulationX10")
     .setPosition(480, height - 60)
     .setSize(240, 30)
@@ -275,21 +259,7 @@ void setup() {
   );
 }
 
-// Override default tick mark labels
-void drawTickLabels() {
-
-  final String[] letters = { "A", "B", "C", "D", "E" };
-  pushStyle();
-  fill(250);
-  textAlign(CENTER, BOTTOM);
-  textSize(48);
-  for (int i = 0; i < letters.length; i++) {
-    float xPos = map(i, 0, 4, 50, width-300);
-    text(letters[i], xPos, worldSlider.getWidth() - 5);
-  }
-  popStyle();
-}
-
+// Override default tick mark labels, with strings containing the needed values
 void drawCurrentValueLabel() {
   final String[] letters = { "XS", "S", "M", "L", "XL" };
   int index = (int) worldSlider.getValue();
@@ -298,17 +268,17 @@ void drawCurrentValueLabel() {
   pushStyle();
   fill(255);
   textAlign(LEFT, TOP);
-  textSize(36);
+  textSize(18);
   text(label, 50 + worldSlider.getWidth() / 20 - 95, 275);
   popStyle();
 }
 
-
+// draw method drawing initial screen and simulation screen depending on the var currentScreen which changes from a method 
+// when the start sim button is pressed, initial and final sliders along with instructions
 void draw() {
   background(50);
   switch(currentScreen) {
   case 0:
-    drawTickLabels();
     drawCurrentValueLabel();
     slider1.show();
     slider2.show();
@@ -326,21 +296,20 @@ void draw() {
     textAlign(CENTER, CENTER);
     fill(255);
     String instructions1 =
-      "•  Temperature: You can set the temperature from 5°C to 45°C. \n  - Set value to 25 for [effect]\n\n" +
-      "•  Planet Albedo: You can set the planet's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n" +
-      "•  White Daisy Albedo %: You can set the white daisy's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n" +
-      "•  Black Daisy Albedo %: You can set the black daisy's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]";
+      "•  Temperature: You can set the temperature from 5°C to 45°C. \n  - This doesn't matter that much,since it will change accordingly\n\n" +
+      "•  Planet Albedo: You can set the planet's albedo from 0.25 to 0.75.\n  - Set value to 0.5 for a proper simulation\n\n" +
+      "•  White Daisy Albedo %: You can set the white daisy's albedo from 0.25 to 0.75. \n  - Set value to 0.75 for a proper simulation\n\n" +
+      "•  Black Daisy Albedo %: You can set the black daisy's albedo from 0.25 to 0.75. \n  - Set value to 0.25 for a proper simulation";
 
-    String instructions2 = "•  Solar Flux: You can set the luminosity of the sun from 0 to 2.\n  - Set value to Z for [effect]\n\n" +
-      "•  Virus Death Rates: You can set the virus death rates from 0.00 to 0.30. \n  - Set value to Z for [effect]\n\n" +
-      "•  World Size: You can set the world size of the simulation from 4 different sizes. \n  - Set value to Z for [effect]\n\n" +
-      "•  Uncovered Land: You can set the uncovered land ratio, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n";
-      
+    String instructions2 = "•  Solar Flux: You can set the luminosity of the sun from low to high.\n  - Set value to mid for a proper simulation\n\n" +
+      "•  Virus Death Rates: You can set the virus death rates from 0.00 to 0.30. \n  - Set value to 0.3 for a proper simulation\n\n" +
+      "•  World Size: You can set the world size of the simulation from 4 different sizes. \n  - Choose a size of your own preference\n\n" +
+      "•  Uncovered Land: You can set the uncovered land ratio, from 0.00 to 1.00. \n  - Choose a size of your own preference\n\n";
+
     text("Instructions for proper use:", width / 2, height / 2 + 30 );
     text(instructions1, width / 4, height / 1.5 + 140);
     text(instructions2, width - 350, height / 1.5 + 170);
-    text("•  Black to White Ratio: You can set the ratio of Black to White daisies, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n", width / 2, height / 2 + 110);
-
+    text("•  Black to White Ratio: You can set the ratio of Black to White daisies, from 0.00 to 1.00. \n  - Choose a ratio of your own preference\n\n", width / 2, height / 2 + 110);
     popStyle();
     button1.hide();
     button3.hide();
@@ -359,6 +328,7 @@ void draw() {
       Arr =  button2Callback();
       grid = new Grid(rows, cols, Arr);
     }
+    // graph creation for daisies / year, temp/year and daisy growth rate depending on temp
     createGraph("Daisies over the years(Black = Black line, White = Red line)", 0, width-550, height-990); // 0 gray 1white 2black
     createGraph("Temperature over time", 1, width-550, height-680); //
     createGraph("Growth rate over temp(Black = Black line, White = Red line)", 2, width-550, height-370);
@@ -382,7 +352,9 @@ void draw() {
   }
 }
 
-
+// call back functions for the buttons
+// floatarray fills with users input when screen 1 is reached
+// switch case for the size of the world depending on user input and initialization of the grid
 float[] button2Callback()
 {
   if (button2.isMouseOver()) {
@@ -394,17 +366,19 @@ float[] button2Callback()
   }
 
   float[] floatArray = new float[8];
-  floatArray[0] = slider1.getValue(); //temp
-  floatArray[1] = slider2.getValue(); // pAlbedo
-  floatArray[2] = slider3.getValue(); //wAlbedo
-  floatArray[3] = slider4.getValue();//bAlbedo
-  floatArray[4] = grayAreaSlider.getValue();//grayArea
-  floatArray[5] = daisiesSlider.getValue(); // b to w ratio
-  floatArray[6] = slider5.getValue();
-  floatArray[7] = slider6.getValue();
+  floatArray[0] = slider1.getValue(); //temperature
+  floatArray[1] = slider2.getValue(); // planet Albedo
+  floatArray[2] = slider3.getValue(); //white Albedo
+  floatArray[3] = slider4.getValue();//black Albedo
+  floatArray[4] = grayAreaSlider.getValue();//uncovered to covered area ratio 
+  floatArray[5] = daisiesSlider.getValue(); // black to white daisy  ratio
+  floatArray[6] = slider5.getValue(); // solar flux constant from user input mid/low/high 
+  floatArray[7] = slider6.getValue(); // death rate from user input
   return floatArray;
 }
-
+// update the grid buttons 
+// update the grid, add the values needed for the graphs such as daisy amount 
+// global temp and time depending on simulation steps 
 void button1Callback()
 {
   if (currentScreen == 1) grid.update();
@@ -477,8 +451,7 @@ void button5Callback() {
 }
 
 
-
-
+// choose size switch case, by changing grid rows and cols and size of each daisy
 public void chooseSize(int i)
 {
   switch (i) {
