@@ -2,7 +2,6 @@ class GradientSliderView implements ControllerView<Slider> {
   public void display(PGraphics pg, Slider slider) {
     pg.pushStyle();
     pg.noStroke();
-
     // Draw gradient
     for (int i = 0; i < slider.getWidth(); i++) {
       float t = map(i, 0, slider.getWidth(), 0, 1);
@@ -30,15 +29,10 @@ class GradientSliderView implements ControllerView<Slider> {
   float tooltipX = markerPosition - 20;
   float tooltipY = slider.getHeight() + 10;
   String valueText = String.format("%.2f", slider.getValue());
-  float valueTextWidth = pg.textWidth(valueText);
 
-  // Tooltip background and border
-  pg.fill(100);
-  pg.stroke(0);
-  pg.rect(tooltipX, tooltipY, valueTextWidth + 10, 20);
 
   // Tooltip text
-  pg.fill(0);
+  pg.fill(255);
   pg.textFont(captionFont);
   pg.text(valueText, tooltipX + 5, tooltipY + 15);
   pg.popStyle();

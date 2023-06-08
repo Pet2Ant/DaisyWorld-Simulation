@@ -3,17 +3,17 @@ class Grid {
   Cell[][] grid;
   // initialize worldAlbedo =0.5
   // initialize globaltemp 20
-  float globalTemperature = Arr[0];
-  float worldAlbedo = Arr[1];
-  float bAlbedo = Arr[3];
-  float wAlbedo = Arr[2];
-  float death_rate = Arr[7];
-  int[] count = new int[3];
-  int counterW;
-  int counterB;
-  int counterG;
-  float growthFactW;
-  float growthFactB;
+  private float globalTemperature = Arr[0];
+  private float worldAlbedo = Arr[1];
+  private float bAlbedo = Arr[3];
+  private float wAlbedo = Arr[2];
+  private float death_rate = Arr[7];
+  private int[] count = new int[3];
+  private int counterW;
+  private int counterB;
+  private int counterG;
+  private float growthFactW;
+  private float growthFactB;
 
   Grid(int rows, int cols, float Arr[])
   {
@@ -78,7 +78,7 @@ class Grid {
     }
   }
 
-  void draw() {
+ private void draw() {
     // Draw each tile in the grid.
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
@@ -89,7 +89,7 @@ class Grid {
 
 
 
-  void update() {
+ private void update() {
     // Initialize newGrid and update daisy ages
     // Create a new grid of cells
     Cell[][] newGrid = new Cell[rows][cols];

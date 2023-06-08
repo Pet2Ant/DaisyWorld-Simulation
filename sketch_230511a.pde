@@ -65,7 +65,7 @@ void setup() {
     .setColorActive(color(196, 0, 0)); // Modify active slider color
   slider1.getCaptionLabel().setFont(captionFont);
   slider1.getValueLabel().setFont(captionFont).setColor(color(255));
-  
+
   slider2 = cp5.addSlider("pAlbedo")
     .setPosition(50, 90)
     .setRange(0.0, 1.0)
@@ -77,7 +77,7 @@ void setup() {
     .setColorActive(color(14, 166, 0)); // Modify active slider color
   slider2.getCaptionLabel().setFont(captionFont);
   slider2.getValueLabel().setFont(captionFont).setColor(color(255));
-  
+
   slider3 = cp5.addSlider("whiteDaisyAlbedo")
     .setPosition(50, 130)
     .setRange(0.0, 1.0)
@@ -108,10 +108,9 @@ void setup() {
     .setSize(width-300, 20)
     .setValue(1)
     .setNumberOfTickMarks(3)
-    .setLabel("Solar flux")
-    .setColorForeground(color(167, 179, 2)) // Modify slider color
-    .setColorBackground(color(117, 125, 1))
-    .setColorActive(color(190, 204, 2)); // Modify active slider color
+    .snapToTickMarks(false)
+    .setLabel("SOLAR FLUX")
+    .setView(new CustomSliderView()); // Modify active slider color
   slider5.getCaptionLabel().setFont(captionFont);
   slider5.getValueLabel().setFont(captionFont).setColor(color(255));
 
@@ -128,17 +127,23 @@ void setup() {
   slider6.getValueLabel().setFont(captionFont).setColor(color(255));
 
 
-  worldSlider = cp5.addSlider("World Size")
+  worldSlider = cp5.addSlider("WORLD SIZE")
     .setPosition(50, 290)
     .setRange(0, 4)
     .setSize(width-300, 20)
     .setNumberOfTickMarks(5)
     .setValue(2)
-    .setColorBackground(color(9, 0, 87))
-    .setColorForeground(color(15, 1, 130)) // Modify slider color
-    .setColorActive(color(20, 2, 168)); // Modify active slider color
+    .snapToTickMarks(false)
+    .setLabelVisible(false)
+
+    //.setColorBackground(color(9, 0, 87))
+    //.setColorForeground(color(15, 1, 130)) // Modify slider color
+    //.setColorActive(color(20, 2, 168))
+    .setView(new CustomSliderView());
   worldSlider.getCaptionLabel().setFont(captionFont);
-  worldSlider.getValueLabel().setFont(captionFont).setColor(color(255));
+  worldSlider.getValueLabel().setFont(captionFont).setColor(color(15, 1, 130));
+
+
 
 
   grayAreaSlider = cp5.addSlider("Uncovered Land")
@@ -151,14 +156,16 @@ void setup() {
     .setColorActive(color(196, 99, 0)); // Modify active slider color
   grayAreaSlider.getCaptionLabel().setFont(captionFont);
   grayAreaSlider.getValueLabel().setFont(captionFont).setColor(color(255));
-  
+
+
+
   daisiesSlider = cp5.addSlider("BLACK TO WHITE RATIO")
-    .setPosition(50, 370)
+    .setPosition(50, 400)
     .setRange(0, 1)
     .setSize(width-300, 20)
     .setValue(0.5)
 
-    .setView(new GradientSliderView()); // Set custom view
+    .setView(new CustomSliderView()); // Set custom view
   daisiesSlider.getCaptionLabel().setFont(captionFont) // Modify font and font size
     .toUpperCase(true); // Convert caption text to uppercase
 
@@ -185,7 +192,7 @@ void setup() {
   );
 
   button2 = cp5.addButton("startSimulation")
-    .setPosition(width/4, height/2 - 70)
+    .setPosition(width/4, height/2 - 40)
     .setLabel("Start Simulation")
     .setSize(width/2, 30)
     .setValue(1)
@@ -261,11 +268,41 @@ void setup() {
   );
 }
 
+// Override default tick mark labels
+void drawTickLabels() {
+
+  final String[] letters = { "A", "B", "C", "D", "E" };
+  pushStyle();
+  fill(250);
+  textAlign(CENTER, BOTTOM);
+  textSize(48);
+  for (int i = 0; i < letters.length; i++) {
+    float xPos = map(i, 0, 4, 50, width-300);
+    text(letters[i], xPos, worldSlider.getWidth() - 5);
+  }
+  popStyle();
+}
+
+void drawCurrentValueLabel() {
+  final String[] letters = { "XS", "S", "M", "L", "XL" };
+  int index = (int) worldSlider.getValue();
+  String label = (index >= 0 && index < letters.length) ? letters[index] : "";
+
+  pushStyle();
+  fill(255);
+  textAlign(LEFT, TOP);
+  textSize(36);
+  text(label, 50 + worldSlider.getWidth() / 20 - 95, 275);
+  popStyle();
+}
+
 
 void draw() {
   background(50);
   switch(currentScreen) {
   case 0:
+    drawTickLabels();
+    drawCurrentValueLabel();
     slider1.show();
     slider2.show();
     slider3.show();
@@ -276,27 +313,27 @@ void draw() {
     worldSlider.show();
     grayAreaSlider.show();
     daisiesSlider.show();
-      // Instructions
-  pushStyle();
-  textSize(20);
-  textAlign(CENTER, CENTER);
-  fill(255);
-  String instructions1 = 
-    "•  Temperature: You can set the temperature from 5°C to 45°C. \n  - Set value to 25 for [effect]\n\n" +
-    "•  Planet Albedo: You can set the planet's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n" +
-    "•  White Daisy Albedo %: You can set the white daisy's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n" +
-    "•  Black Daisy Albedo %: You can set the black daisy's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]";
-    
-  String instructions2 = "•  Solar Flux: You can set the luminosity of the sun from 0 to 2.\n  - Set value to Z for [effect]\n\n" +
-    "•  Virus Death Rates: You can set the virus death rates from 0.00 to 0.30. \n  - Set value to Z for [effect]\n\n" +
-    "•  World Size: You can set the world size of the simulation from 4 different sizes. \n  - Set value to Z for [effect]\n\n" +
-    "•  Uncovered Land: You can set the uncovered land ratio, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n";
-    
-  text("Instructions for proper use:", width / 2, height / 2 - 10 );
-  text(instructions1, width / 4, height / 1.5 + 110);
-  text(instructions2, width - 350, height / 1.5 + 140);
-  text("•  Black to White Ratio: You can set the ratio of Black to White daisies, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n", width / 2, height / 2 + 80);
-  popStyle();
+    // Instructions
+    pushStyle();
+    textSize(20);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    String instructions1 =
+      "•  Temperature: You can set the temperature from 5°C to 45°C. \n  - Set value to 25 for [effect]\n\n" +
+      "•  Planet Albedo: You can set the planet's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n" +
+      "•  White Daisy Albedo %: You can set the white daisy's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n" +
+      "•  Black Daisy Albedo %: You can set the black daisy's albedo from 0.00 to 1.00. \n  - Set value to Z for [effect]";
+
+    String instructions2 = "•  Solar Flux: You can set the luminosity of the sun from 0 to 2.\n  - Set value to Z for [effect]\n\n" +
+      "•  Virus Death Rates: You can set the virus death rates from 0.00 to 0.30. \n  - Set value to Z for [effect]\n\n" +
+      "•  World Size: You can set the world size of the simulation from 4 different sizes. \n  - Set value to Z for [effect]\n\n" +
+      "•  Uncovered Land: You can set the uncovered land ratio, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n";
+
+    text("Instructions for proper use:", width / 2, height / 2 - 10 );
+    text(instructions1, width / 4, height / 1.5 + 110);
+    text(instructions2, width - 350, height / 1.5 + 140);
+    text("•  Black to White Ratio: You can set the ratio of Black to White daisies, from 0.00 to 1.00. \n  - Set value to Z for [effect]\n\n", width / 2, height / 2 + 80);
+    popStyle();
     button1.hide();
     button3.hide();
     button4.hide();

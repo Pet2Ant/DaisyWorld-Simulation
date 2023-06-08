@@ -1,11 +1,10 @@
 // Daisy class
 class Daisy {
   // Define variables
-  PImage img;
-  // change temp to albedo
+  private PImage img;
   float albedo;
-  int age;
-  int daisyType;
+  private int age;
+  private int daisyType;
 
   // Constructor for the Daisy class
   Daisy(int daisyType, float albedo) {
@@ -26,32 +25,9 @@ class Daisy {
     this.daisyType = daisyType;
   }
 
-  //5 parametrous gia na kanei initialize to kosmo , tiny small medium large xL
-  // black daisies zoun kalitera s xamiles
-  // white daisies se ipsiles
-
-
-  void draw(float x, float y) {
+private void draw(float x, float y) {
     // Draw a circle.
     imageMode(CENTER);
     image(img, x + size / 2, y + size / 2, size, size);
-  }
-
-  // setters and getters
-
-  public void setAge(int age) {
-    this.age = age;
-  }
-
-  public int getAge() {
-    return this.age;
-  }
-
-  public void setAlbedo(float albedo) {
-    this.albedo = albedo;
-  }
-
-  public float getAlbedo() {
-    return this.albedo;
   }
 }
