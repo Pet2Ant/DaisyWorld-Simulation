@@ -1,8 +1,6 @@
 // Grid class
 class Grid {
   Cell[][] grid;
-  // initialize worldAlbedo =0.5
-  // initialize globaltemp 20
   private float globalTemperature = Arr[0];
   private float worldAlbedo = Arr[1];
   private float bAlbedo = Arr[3];
@@ -50,7 +48,7 @@ class Grid {
         // Filter out daisy types that have reached their maximum counts
         ArrayList<int[]> availableTypes = new ArrayList<int[]>();
         for (int[] remainingCount : remainingCounts) {
-          if (remainingCount[1] > 0) {
+          if (remainingCount[1] >= 0) {
             availableTypes.add(remainingCount);
           }
         }

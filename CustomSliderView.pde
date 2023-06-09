@@ -3,14 +3,19 @@ class CustomSliderView implements ControllerView<Slider> {
     pg.pushStyle();
     pg.noStroke();
 
-
     // Draw slider bar background
     pg.fill(100);
     float barHeight = 20;
     float handleWidth = 10;
     float handleHeight = 25;
+    color handleColor;
+
 
     if (slider == worldSlider) {
+
+      // Draw the background for the entire slider
+      pg.fill(85, 105, 190); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
 
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
@@ -18,12 +23,16 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
       pg.popStyle();
     } else if (slider == slider5) {
+
+      // Draw the background for the entire slider
+      pg.fill(200, 200, 200); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
 
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
@@ -31,12 +40,16 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
       pg.popStyle();
     } else if (slider == slider1) {
+
+      // Draw the background for the entire slider
+      pg.fill(100, 0, 0); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
 
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
@@ -44,7 +57,7 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
@@ -62,13 +75,17 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.popStyle();
     } else if (slider == slider2) {
 
+      // Draw the background for the entire slider
+      pg.fill(0, 70, 0); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
+
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
       pg.fill(11, 133, 0); // Change this to the desired filled portion color
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
@@ -86,13 +103,17 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.popStyle();
     } else if (slider == slider3) {
 
+      // Draw the background for the entire slider
+      pg.fill(180, 180, 180); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
+
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
       pg.fill(227, 225, 225); // Change this to the desired filled portion color
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
@@ -110,13 +131,17 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.popStyle();
     } else if (slider == slider4) {
 
+      // Draw the background for the entire slider
+      pg.fill(30, 30, 30); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
+
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
-      pg.fill(15, 15, 15); // Change this to the desired filled portion color
+      pg.fill(0, 0, 0); // Change this to the desired filled portion color
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
@@ -134,13 +159,17 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.popStyle();
     } else if (slider == slider6) {
 
+      // Draw the background for the entire slider
+      pg.fill(72, 0, 150); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
+
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
-      pg.fill(72, 3, 150); // Change this to the desired filled portion color
+      pg.fill(62, 0, 150); // Change this to the desired filled portion color
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);
@@ -158,13 +187,17 @@ class CustomSliderView implements ControllerView<Slider> {
       pg.popStyle();
     } else if (slider == grayAreaSlider) {
 
+      // Draw the background for the entire slider
+      pg.fill(130, 60, 0); // Change this to the desired background color
+      pg.rect(0, (slider.getHeight() - barHeight) / 2, slider.getWidth(), barHeight, 5, 5, 5, 5);
+
       // Draw filled portion of the slider bar
       float handlePosition = map(slider.getValue(), slider.getMin(), slider.getMax(), 0, slider.getWidth());
       pg.fill(163, 82, 0); // Change this to the desired filled portion color
       pg.rect(0, (slider.getHeight() - barHeight) / 2, handlePosition, barHeight, 5, 5, 5, 5);
 
       // Draw handle
-      color handleColor = color(255);
+      handleColor = color(255);
       pg.fill(handleColor);
 
       pg.rect(handlePosition - handleWidth / 2, (slider.getHeight() - handleHeight) / 2, handleWidth, handleHeight, 5, 5, 5, 5);

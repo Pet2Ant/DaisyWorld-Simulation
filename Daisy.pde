@@ -31,4 +31,3 @@ private void draw(float x, float y) {
     image(img, x + size / 2, y + size / 2, size, size);
   }
 }
-
