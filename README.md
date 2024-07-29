@@ -59,7 +59,7 @@ Libraries Used: Standard Processing libraries for GUI and simulation graphics.
 This project was a collaborative effort as a student project.
 Created by: 
 - Antonios Niotis
-- Christos Kanellopoulos
+- [Christos Kanellopoulos](https://github.com/Ckanel/)
 
 My contributions to the project include:
 
