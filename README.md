@@ -1,6 +1,5 @@
 # DaisyWorld Simulation
 DaisyWorld Simulation is an interactive model implemented in Processing that simulates the theoretical Daisy World model. This model demonstrates how living organisms (specifically black and white daisies) can affect their environment to create a stable ecosystem.
-This was given to us during the second year of our studies for the module Software Development In Practice. 
 
 # Features
 * Temperature Control: Set the initial temperature from 5°C to 45°C.
@@ -30,10 +29,13 @@ Temperature changes over time.
 Daisy growth rate over temperature.
 
 # Instructions
-* Setting Parameters:
-
+ Ideal Setting Parameters: 
+* White-colored daisies the albedo of 0.75
+* Dark-colored daisies the albedo of  0.25
+* Bare-ground albedo (no flowers) value of 0.5 
+* Virus death rate of 0.05 
 Use the sliders on the control panel to set your desired initial conditions for the simulation.
-Default settings are recommended for a balanced simulation but feel free to experiment with different values.
+Ideal settings are recommended for a balanced simulation but feel free to experiment with different values.
 
 # Starting the Simulation:
 
@@ -48,9 +50,20 @@ Programming Language: Processing
 Libraries Used: Standard Processing libraries for GUI and simulation graphics.
 # Usage
 * Download and Install Processing: Ensure you have Processing installed on your machine.
-* Clone the Repository: git clone https://github.com/yourusername/daisyworld-simulation.git
+* Clone the Repository: git clone https://github.com/Pet2Ant/DaisyWorld-Simulation
 * Open the Project: Open the project in Processing.
 * Run the Simulation: Click the run button in Processing to start the DaisyWorld Simulation.
-# Contributions 
-I created some of the graphical interfaces, but mainly worked on the physics of the simulation and the graphs.
-Antonis was mainly focused on developing the graphical interface of the project. 
+
+# Contributions
+
+This project was a collaborative effort as a student project.
+Created by: 
+- Antonios Niotis
+- Christos Kanellopoulos
+
+My contributions to the project include:
+
+* Graphical Interface: Designed and implemented the graphical interface for the simulation.
+* Custom Components: Created custom-made slider, button and slider components from scratch without the use of external libraries.
+* Simulation Graphics: Developed the main graphics for the simulation screen, including custom buttons and detailed visuals.
+* Physics Implementation: Assisted in developing and refining the physics of the project, ensuring accurate simulation of the Daisy World model.
